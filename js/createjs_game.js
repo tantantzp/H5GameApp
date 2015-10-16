@@ -1,5 +1,8 @@
 
-var stage, W = 640, H = 960, IS_TOUCH, SCREEN_SHOW_ALL = !1, g_androidsoundtimer = null, g_followAnim = null;
+var stage, W = 640, H = 960, IS_TOUCH, SCREEN_SHOW_ALL = !1, 
+    g_androidsoundtimer = null, g_followAnim = null;
+    
+    
 onload = function () {
 	stage = new createjs.Stage("stage");
 	if (IS_TOUCH = createjs.Touch.isSupported()) {
@@ -14,6 +17,8 @@ onload = function () {
 	loadResource();
 	initBest();
 };
+
+
 onresize = setCanvas;
 function setCanvas() {
 	var a = stage.canvas, b = window.innerWidth, c = window.innerHeight - 3;
