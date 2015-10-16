@@ -13,6 +13,7 @@
 		<script type="text/javascript" src="js/createjs-2013.12.12.min.js"></script>
 		<script type="text/javascript" src="js/createjs_game.js"></script>
 		<script type="text/javascript" src="js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="js/game_welcome.js" ></script>
 		<script type="text/javascript" src="js/main.js"></script>
 		
 	</head>
@@ -21,7 +22,12 @@
 		您的浏览器不支持html5, 请换用支持html5的浏览器
 		</canvas>
 		
-		
+		<div id=share style="display: none">
+		<img width=100% src="img/share.png"
+			style="position: fixed; z-index: 9999; top: 0; left: 0; display: "
+			ontouchstart="document.getElementById('share').style.display='none';">
+	    </div>
+	    <div style="display: none;">
 		<script type="text/javascript" src="js/weixin.js" ></script>
 
 	</body>

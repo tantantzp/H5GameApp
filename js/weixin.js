@@ -49,26 +49,21 @@ var mebtnopenurl = 'game.id87.com/youxi/'; //更多游戏链接
 	        }, onShareComplete);
 	    });
 	}, false);
-	</script>
-	<div id=share style="display: none">
-		<img width=100% src="img/share.png"
-			style="position: fixed; z-index: 9999; top: 0; left: 0; display: "
-			ontouchstart="document.getElementById('share').style.display='none';">
-	</div>
-	<div style="display: none;">
-		<script type="text/javascript">
-		var myData = {};
-		function dp_submitScore(score,level){
-			myscore=score;
-			mylevel=level
-			myData.score = score;
-			myData.scoreName = score+"步";
-			if(score>5){
-				if (confirm("真行,你用了"+score+"步！要不要通知下小伙伴们呢？")){
-					dp_share();
-				}
+
+
+
+	var myData = {};
+	function dp_submitScore(score,level){
+		myscore=score;
+		mylevel=level
+		myData.score = score;
+		myData.scoreName = score+"步";
+		if(score>5){
+			if (confirm("真行,你用了"+score+"步！要不要通知下小伙伴们呢？")){
+				dp_share();
 			}
 		}
-		function onShareComplete(res) {
-			document.location.href = mebtnopenurl;
-        }
+	}
+	function onShareComplete(res) {
+		document.location.href = mebtnopenurl;
+    }
