@@ -1,28 +1,5 @@
 			
-var StepBoard = function (a, b) {
-	this.initialize();
-	var c = new createjs.Bitmap(queue.getResult(a));
-	this.addChild(c);
-	var d = Math.abs(score);
-	this.stepboardlabel = new createjs.Text(d.toString(), "bold 60px Arial", b);
-	this.stepboardlabel.textBaseline = "middle";
-	this.stepboardlabel.x = c.getBounds().width + 30;
-	this.stepboardlabel.y = c.getBounds().height / 2;
-	this.addChild(this.stepboardlabel);
-};
-StepBoard.prototype = new createjs.Container;
-StepBoard.prototype.setStepNum = function () {
-	var a = Math.abs(score);
-	this.stepboardlabel.text = a.toString();
-};
-StepBoard.prototype.setStepNum_IncreaseOneStep = function () {
-	score--;
-	this.setStepNum();
-};
-StepBoard.prototype.reSet = function () {
-	score = 0;
-	this.setStepNum();
-};
+
 function LoadWelComeSceneRes() {
 	queue.loadManifest({path:RES_DIR + "img/", 
 	      manifest:[{src:"banner.jpg", id:"banner"}, 
