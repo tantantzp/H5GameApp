@@ -17,53 +17,67 @@ function LoadGameoverSceneRes() {
 	              {src:"gameover.png", id:"gameover"}]}, !1);
 }
 
-var WelComeScene = function (a, b, c) {
-	var d = new createjs.Container;
-	c.addChild(d);
-	var e = new createjs.Shape;
-	e.graphics.f(a).r(0, 0, 640, 960).ef();
-	d.addChild(e);
-	a = new createjs.Bitmap(queue.getResult("banner"));
-	d.addChild(a);
-	a = new createjs.Bitmap(queue.getResult("help"));
-	a.setAnchorPoint(0.5, 0.5);
-	a.x = 320;
-	a.y = 480;
-	d.addChild(a);
-	a = new createjs.Bitmap(queue.getResult("discription"));
-	a.setAnchorPoint(0.5, 0.5);
-	a.x = 320;
-	a.y = 700;
-	d.addChild(a);
+var WelComeScene = function (gameFunc, stage) {
+	stage.clear();
+	
+	var tcontainer = new createjs.Container;
+	stage.addChild(tcontainer);
+	
+	var tbigmap;
+	tbigmap = new createjs.Bitmap(qp_resourceList.getResult("bg"));
+	tbigmap.x = 0;
+	tbigmap.y = 0 ;
+	tbigmap.scaleX = (ScreenWidth / tbigmap.image.width) + 0.2;
+	tbigmap.scaleY = (screenHeight / tbigmap.image.height);
+	tcontainer.addChild(tbigmap);          //add background img
+		
+//	var e = new createjs.Shape;
+//	e.graphics.f(a).r(0, 0, 640, 960).ef();
+//	d.addChild(e);
+//	a = new createjs.Bitmap(queue.getResult("banner"));
+//	d.addChild(a);
+//	a = new createjs.Bitmap(queue.getResult("help"));
+//	a.setAnchorPoint(0.5, 0.5);
+//	a.x = 320;
+//	a.y = 480;
+//	d.addChild(a);
+//	a = new createjs.Bitmap(queue.getResult("discription"));
+//	a.setAnchorPoint(0.5, 0.5);
+//	a.x = 320;
+//	a.y = 700;
+//	d.addChild(a);
+    var a;
 	a = new createjs.Bitmap(queue.getResult("playbtn"));
 	a.setAnchorPoint(0.5, 0.5);
 	a.x = 155;
 	a.y = 850;
-	d.addChild(a);
+	
+	tcontainer.addChild(a);
 	a.on("mousedown", function (a) {
 		IS_TOUCH && a.nativeEvent instanceof MouseEvent ||
 		(this.scaleY = this.scaleX = 0.95);
 	}, a);
 	a.on("pressup", function (a) {
 		this.scaleY = this.scaleX = 1;
-		step = score = 0;
-		b();
-		c.removeChild(d);
+		gameFunc();
+		stage.removeChild(tcontainer);
+		
 	}, a);
 	a = new createjs.Bitmap(queue.getResult("topbtn"));
 	a.setAnchorPoint(0.5, 0.5);
 	a.x = 485;
 	a.y = 850;
-	d.addChild(a);
-	a.on("mousedown", function (a) {
-		IS_TOUCH && a.nativeEvent instanceof MouseEvent || 
+	
+	tcontainer.addChild(a);
+	a.on("mousedown", function () {
+		IS_TOUCH && this.nativeEvent instanceof MouseEvent || 
 		(this.scaleY = this.scaleX = 0.95);
-	}, a);
-	a.on("pressup", function (a) {
+	});
+	a.on("pressup", function () {
 		this.scaleY = this.scaleX = 1;
-		goHome();
-	}, a);
-	c.addChild(d);
+		
+	});
+	
 };
 
 var GameoverNormal = function (a, b, c, d) {

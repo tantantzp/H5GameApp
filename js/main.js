@@ -5,7 +5,7 @@ var  ScreenWidth = 640, screenHeight = 960, qp_blockXNum = 8, qp_blockYNum = 8, 
 
 
 function resourceLoadComplete(a) {
-	new WelComeScene("#8de9cb", qp_gameFunc, stage);
+	new WelComeScene(qp_gameFunc, stage);
 };
 
 function loadResource() {
@@ -46,6 +46,8 @@ function loadResource() {
 
 
 function qp_gameFunc() {
+	stage.clear();
+	
 	qp_mapContainer = new createjs.Container;
 	stage.addChild(qp_mapContainer);	
 	
@@ -167,8 +169,8 @@ var C_imgBlock = function (locationX, locationY) {
 	this.initialize();
 	
 	this.visible = 1;
-	this.indexi = locationX;
-	this.indexj = locationY;
+	//this.indexi = locationX;
+	//this.indexj = locationY;
 	//this.img = this.m_img = new createjs.Shape;
 	this.img = new createjs.Bitmap(qp_resourceList.getResult("block"));
     
@@ -180,6 +182,7 @@ var C_imgBlock = function (locationX, locationY) {
 		//this.scaleY = this.scaleX = 0;
 		qp_stepBoard.setStepNum_IncreaseOneStep();
 		qp_scoreBoard.decreaseScore(10);
+		
 		this.visible = 0;
 	});	
 	this.addChild(this.img);
