@@ -1,4 +1,4 @@
-var  ScreenWidth = 640, ScreenHeight = 960, qp_blockXNum = 5, qp_blockYNum = 5;
+var  ScreenWidth = 640, ScreenHeight = 960;
 var	qp_stepBoard, qp_scoreBoard, qp_mapContainer, 
 	qp_answerCollection, qp_mapClass, qp_imgBlockCollection,  qp_nextbtn, qp_topbtn;
 var  qp_curIndex;
@@ -55,6 +55,8 @@ function loadResource() {
 function qp_gameFunc(index) {
 	this.index = index;
 	qp_curIndex = index;
+	var blockNum = 5 + Math.floor(index);
+	 
 	stage.removeAllChildren();
 	
 	qp_mapContainer = new createjs.Container;
@@ -93,7 +95,7 @@ function qp_gameFunc(index) {
     var xoffset = 60, yoffset = 115;
     var allBlockWidth = ScreenWidth - xoffset * 2;
     var allBlockHeight = allBlockWidth;
-    var blockNum = 5;
+   
     var ansY = allBlockHeight + 150;
     var ansWidth = allBlockWidth;
     var ansHeight = ScreenHeight - allBlockHeight - 250;
@@ -232,9 +234,9 @@ var C_imgBlockCollection = function (thuImgName, width, height, blockNum) {
 };
 C_imgBlockCollection.prototype = new createjs.Container;
 C_imgBlockCollection.prototype.initBlocks = function () {
-	for (var x = 0; x < qp_blockYNum; x++) {
-		for (var y = 0; y < qp_blockXNum; y++) {
-			this.allblocks[x * qp_blockXNum + y] = new C_imgBlock(x, y);
+	for (var x = 0; x < this.blockNum; x++) {
+		for (var y = 0; y < this.blockNum; y++) {
+			this.allblocks[x * this.blockNum + y] = new C_imgBlock(x, y);
 		
 		}
 	}
@@ -242,9 +244,13 @@ C_imgBlockCollection.prototype.initBlocks = function () {
 
 
 C_imgBlockCollection.prototype.addBlocks = function() {
+	
 	for (var x = 0; x < this.blockNum; x++) {
+		var remove = Math.floor(Math.random() * this.blockNum);
 		for (var y = 0; y < this.blockNum; y++) {
-			var  tblock = this.allblocks[x * qp_blockXNum + y];
+			if(y == remove) continue;
+			var tidx = x * this.blockNum + y;
+			var  tblock = this.allblocks[tidx];
 			tblock.alpha = 0;
 			createjs.Tween.get(tblock).to({alpha:1}, 300).call(function() {
 	                    qp_imgBlockCollection.thuImg.alpha =1;
@@ -262,7 +268,7 @@ C_imgBlockCollection.prototype.addBlocks = function() {
 C_imgBlockCollection.prototype.removeAllBlocks = function() {
 	for (var x = 0; x < this.blockNum; x++) {
 		for (var y = 0; y < this.blockNum; y++) {
-			var  tblock = this.allblocks[x * qp_blockXNum + y];
+			var  tblock = this.allblocks[x * this.blockNum + y];
 			createjs.Tween.get(tblock).to({alpha:0}, 500);
 	   }
 	}
