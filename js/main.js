@@ -1,7 +1,19 @@
-var  ScreenWidth = 640, screenHeight = 960, qp_blockXNum = 8, qp_blockYNum = 8, qp_c = 25, qp_xoffset = 27, qp_yoffset = 80, qp_blockSize = 70, 
-	COLOR_RED = "#B2151E", COLOR_GREEN = "#15B26D", COLOR_PURPLE = "#64549D", 
-	COLOR_YELLOW = "#FEE789", COLOR_BLUE = "#8ECFF5", COLOR_PINK = "#F6AAC4", 
-	qp_stepBoard,qp_scoreBoard, qp_mapContainer, qp_mapClass = null, qp_imgBlockCollection = null;
+var  ScreenWidth = 640, ScreenHeight = 960, qp_blockXNum = 5, qp_blockYNum = 5;
+var	qp_stepBoard, qp_scoreBoard, qp_mapContainer, 
+	qp_answerCollection, qp_mapClass, qp_imgBlockCollection,  qp_nextbtn, qp_topbtn;
+var  qp_curIndex;
+
+//game json information 
+var  qp_gameJsonText = '{"gameInfo":[' +
+    '{"img":"thu1", "ansArray":[{"text": "place1_1", "isans": 0}, {"text": "place1_2", "isans": 0}, {"text": "place1_3", "isans": 1},{"text": "place1_4", "isans": 0}] },' +
+    '{"img":"thu2", "ansArray":[{"text": "place2_1", "isans": 1}, {"text": "place2_2", "isans": 0}, {"text": "place2_3", "isans": 0},{"text": "place2_4", "isans": 0}] },'+
+    '{"img":"thu1", "ansArray":[{"text": "place3_1", "isans": 0}, {"text": "place3_2", "isans": 1}, {"text": "place3_3", "isans": 0},{"text": "place3_4", "isans": 0}] },' +
+    '{"img":"thu2", "ansArray":[{"text": "place4_1", "isans": 0}, {"text": "place4_2", "isans": 0}, {"text": "place4_3", "isans": 0},{"text": "place4_4", "isans": 1}] }'+
+ ']}';
+
+var qp_gameJsonArray = eval("(" + qp_gameJsonText + ")");
+//var qp_gameJsonArray = eval("(" + qp_txt + ")");
+var qp_answerNum = 4;
 
 
 function resourceLoadComplete(a) {
@@ -19,56 +31,74 @@ function loadResource() {
 	stage.addChild(a);
 	queue = qp_resourceList = new createjs.LoadQueue(!1);
 	qp_resourceList.on("complete", resourceLoadComplete, null, !0);
-	USE_NATIVE_SOUND || (IS_NATIVE_ANDROID ? (createjs.Sound.registMySound("do", 0), createjs.Sound.registMySound("re", 2), createjs.Sound.registMySound("me", 4), createjs.Sound.registMySound("fa", 6), createjs.Sound.registMySound("so", 8), createjs.Sound.registMySound("la", 10), createjs.Sound.registMySound("silenttail", 12), qp_resourceList.loadFile({id:"sound", src:RES_DIR + "audio/all.mp3"})) : (createjs.Sound.alternateExtensions = ["ogg"], qp_resourceList.installPlugin(createjs.Sound), qp_resourceList.loadManifest({path:RES_DIR + "audio/", manifest:[{src:"1.mp3", id:"do"}, {src:"2.mp3", id:"re"}, {src:"3.mp3", id:"mi"}, {src:"4.mp3", id:"fa"}, {src:"5.mp3", id:"so"}, {src:"6.mp3", id:"la"}]}, !1)));
 	LoadWelComeSceneRes();
 	LoadGameoverSceneRes();
+	
 	qp_resourceList.loadManifest({path:RES_DIR + "img/", 
 	       manifest:[
-	       {src:"step.png", id:"step"},
-	       {src:"curscore.png", id:"curscore"},
 	       {src:"bg.jpg", id:"bg"}, 
-	       {src:"bluebtn.png", id:"bluebtn"},
-	       {src:"greenbtn.png", id:"greenbtn"}, 
-	       {src:"pinkbtn.png", id:"pinkbtn"}, 
-	       {src:"purplebtn.png", id:"purplebtn"}, 
-	       {src:"redbtn.png", id:"redbtn"}, 
-	       {src:"yellowbtn.png", id:"yellowbtn"},
+	       {src:"bggray.png", id:"bggray"},	       
 	       {src:"block.png", id:"block"},
 	       {src:"thu1.jpg", id:"thu1"},
 	       {src:"thu2.jpg", id:"thu2"},
 	       {src:"btn.png", id:"btn"},
 	       {src:"btnTrue.png", id:"btnTrue"},
-	       {src:"btnFalse.png", id:"btnFalse"}]}, !1);
+	       {src:"btnFalse.png", id:"btnFalse"},
+	       {src:"nextbtn.png", id:"nextbtn"}]}, !1);
 	       
 	a.forQueue(qp_resourceList);
 	qp_resourceList.load();
 };
 
 
-function qp_gameFunc() {
-	stage.clear();
+
+function qp_gameFunc(index) {
+	this.index = index;
+	qp_curIndex = index;
+	stage.removeAllChildren();
 	
 	qp_mapContainer = new createjs.Container;
 	stage.addChild(qp_mapContainer);	
 	
-	var tbigmap;
-	tbigmap = new createjs.Bitmap(qp_resourceList.getResult("bg"));
-	tbigmap.x = 0;
-	tbigmap.y = 0 ;
-	tbigmap.alpha = 0.5
-	tbigmap.scaleX = (ScreenWidth / tbigmap.image.width) + 0.2;
-	tbigmap.scaleY = (screenHeight / tbigmap.image.height);
-	qp_mapContainer.addChild(tbigmap);          //add background img
+	//add  backgroud
+	var tbgmap;
+	tbgmap = new createjs.Bitmap(qp_resourceList.getResult("bg"));
+	tbgmap.x = 0;
+	tbgmap.y = 0 ;
+	tbgmap.alpha = 0.5
+	tbgmap.scaleX = (ScreenWidth / tbgmap.image.width) ;
+	tbgmap.scaleY = (ScreenHeight / tbgmap.image.height);
+	qp_mapContainer.addChild(tbgmap);          //add background img
 	
-
-	var thuImg = "thu1";
-//	qp_imgBlockCollection = new C_imgBlockCollection(thuImg);
-//	qp_imgBlockCollection.initBlocks();
-//	qp_imgBlockCollection.addBlocks(qp_imgBlockCollection);
-    var xoffset = 30, yoffset = 80;
+	var tbggray;
+	tbggray = new createjs.Bitmap(qp_resourceList.getResult("bggray"));
+	tbggray.x = 0;
+	tbggray.y = 0 ;
+	tbggray.scaleX = (ScreenWidth / tbggray.image.width);
+	tbggray.scaleY = (ScreenHeight / tbggray.image.height);
+	qp_mapContainer.addChild(tbggray);          //add background img
+	
+	
+	
+	//read game infomation from json obj
+	var thuImg = qp_gameJsonArray.gameInfo[index].img;
+	var ansTextArray = [];
+	var isAnsArray = [];
+	for(var i = 0; i < 4; i++) {
+		ansTextArray[i] = qp_gameJsonArray.gameInfo[index].ansArray[i].text;
+		isAnsArray[i] = qp_gameJsonArray.gameInfo[index].ansArray[i].isans;
+	}
+	
+	//game page block set
+    var xoffset = 60, yoffset = 115;
     var allBlockWidth = ScreenWidth - xoffset * 2;
     var allBlockHeight = allBlockWidth;
     var blockNum = 5;
+    var ansY = allBlockHeight + 150;
+    var ansWidth = allBlockWidth;
+    var ansHeight = ScreenHeight - allBlockHeight - 250;
+    
+    //create img block collection 
 	qp_imgBlockCollection = new C_imgBlockCollection(thuImg, allBlockWidth, allBlockHeight, blockNum);
 	qp_imgBlockCollection.x = xoffset;
 	qp_imgBlockCollection.y = yoffset;
@@ -76,20 +106,27 @@ function qp_gameFunc() {
 
 	qp_imgBlockCollection.initBlocks();
 	qp_imgBlockCollection.addBlocks();
-
-	//qp_mapClass = new C_mapClassBase(a);       //C_mapClassBase is the map containing color items
-	//qp_mapClass.randomMap();
-	//qp_addAllMapItems(qp_mapClass.m_allitems);  //draw maps items
+    //create answer items
+   
+    qp_answerCollection = new C_answerCollection(ansTextArray, isAnsArray);
+    qp_answerCollection.x = xoffset;
+    qp_answerCollection.y = ansY;
+    
+    qp_answerCollection.scaleX = (ansWidth / qp_answerCollection.getBounds().width);
+	qp_answerCollection.scaleY =  (ansHeight / qp_answerCollection.getBounds().height);
 	
-	qp_stepBoard = new StepBoard("step");//, "#000000");    //show the used step number
+	qp_mapContainer.addChild(qp_answerCollection);
+    
+	//create stepBoard and socreBoard
+	qp_stepBoard = new StepBoard("step");    //show the used step number
 	qp_stepBoard.x = 450;
 	qp_stepBoard.y = 20;
 	qp_stepBoard.scaleX = (100 / qp_stepBoard.getBounds().width);
 	qp_stepBoard.scaleY =  (50 / qp_stepBoard.getBounds().height);
 	qp_mapContainer.addChild(qp_stepBoard);
-	qp_stepBoard.reSet();	
+
 	
-	qp_scoreBoard = new C_ScoreBoard("curscore", 1000);    //show the used step number
+	qp_scoreBoard = new C_ScoreBoard("curscore");    //show the used step number
 	qp_scoreBoard.x = 50;
 	qp_scoreBoard.y = 20;
 	qp_scoreBoard.scaleX = (150 / qp_scoreBoard.getBounds().width);
@@ -97,94 +134,76 @@ function qp_gameFunc() {
 	qp_mapContainer.addChild(qp_scoreBoard);	
 	
 	
-	//qp_mapClass.initfirstflood();
-	//qp_mapClass.flood(qp_mapClass.m_allitems[0].color, !0);
-
+	//var qp_nextbtn;
+	qp_nextbtn = new createjs.Bitmap(qp_resourceList.getResult("nextbtn"));
+	qp_nextbtn.regX = 47;
+	qp_nextbtn.regY = 47;
+	qp_nextbtn.x = 420;
+	qp_nextbtn.y = 920;
 	
-	var tbtn1;
-	tbtn1 = new createjs.Bitmap(qp_resourceList.getResult("redbtn"));
-	tbtn1.regX = 47;
-	tbtn1.regY = 47;
-	tbtn1.x = 72;
-	tbtn1.y = 770;
-	qp_mapContainer.addChild(tbtn1);
-	tbtn1.on("mousedown", function () {
+	qp_nextbtn.alpha = 0;
+	createjs.Tween.get(qp_nextbtn).to({alpha:1}, 1000)
+	//qp_mapContainer.addChild(qp_nextbtn);
+	qp_nextbtn.on("mousedown", function () {
 		IS_TOUCH && this.nativeEvent instanceof MouseEvent || 
 		(this.scaleY = this.scaleX = 0.95);
 	});
-	tbtn1.on("pressup", function () {
+	qp_nextbtn.on("pressup", function (evt, data) {
 		this.scaleY = this.scaleX = 1;
-	});
+		var gameindex = data.obj.index + 1;
+		if(gameindex < qp_answerNum) {
+			qp_imgBlockCollection.removeAllChildren();
+			qp_answerCollection.removeAllChildren();
+			qp_mapContainer.removeAllChildren();
+			stage.removeAllChildren();
+			qp_gameFunc(data.obj.index + 1);			
+		}
+		else {
+		    alert("no more game");			
+		}
+	},null, false, {obj: this});
 	
-	var tbtn2;
-	tbtn2 = new createjs.Bitmap(qp_resourceList.getResult("bluebtn"));
-	tbtn2.regX = 47;
-	tbtn2.regY = 47;
-	tbtn2.x = 371;
-	tbtn2.y = 770;
-	qp_mapContainer.addChild(tbtn2);
-	tbtn2.on("mousedown", function () {
+    qp_topbtn = new createjs.Bitmap(qp_resourceList.getResult("topbtn"));
+	qp_topbtn.regX = 47;
+	qp_topbtn.regY = 47;
+	qp_topbtn.x = 420;
+	qp_topbtn.y = 920;
+	
+	qp_topbtn.alpha = 0;
+	createjs.Tween.get(qp_topbtn).to({alpha:1}, 1000)
+	
+	qp_topbtn.on("mousedown", function () {
 		IS_TOUCH && this.nativeEvent instanceof MouseEvent || 
 		(this.scaleY = this.scaleX = 0.95);
 	});
-	tbtn2.on("pressup", function () {
+	qp_topbtn.on("pressup", function (evt, data) {
 		this.scaleY = this.scaleX = 1;
-	});
+		var gameindex = data.obj.index + 1;
+		
+		qp_imgBlockCollection.removeAllChildren();
+		qp_answerCollection.removeAllChildren();
+		qp_mapContainer.removeAllChildren();
+		stage.removeAllChildren();
+				
+        GameoverScene();
+	},null, false, {obj: this});
 	
-	var tbtn3;
-	tbtn3 = new createjs.Bitmap(qp_resourceList.getResult("purplebtn"));
-	tbtn3.regX = 47;
-	tbtn3.regY = 47;
-	tbtn3.x = 72;
-	tbtn3.y = 880;
-	qp_mapContainer.addChild(tbtn3);
-	tbtn3.on("mousedown", function () {
-		IS_TOUCH && this.nativeEvent instanceof MouseEvent || 
-		(this.scaleY = this.scaleX = 0.95);
-	});
-	tbtn3.on("pressup", function () {
-		this.scaleY = this.scaleX = 1;
-	});
-	
-	var tbtn4;
-	tbtn4 = new createjs.Bitmap(qp_resourceList.getResult("yellowbtn"));
-	tbtn4.regX = 47;
-	tbtn4.regY = 47;
-	tbtn4.x = 371;
-	tbtn4.y = 880;
-	qp_mapContainer.addChild(tbtn4);
-	tbtn4.on("mousedown", function () {
-		IS_TOUCH && this.nativeEvent instanceof MouseEvent || 
-		(this.scaleY = this.scaleX = 0.95);
-	});
-	tbtn4.on("pressup", function () {
-		this.scaleY = this.scaleX = 1;
-	});
-	
-
-
 };
 
 var C_imgBlock = function (locationX, locationY) {
-	this.initialize();
-	
+	this.initialize();	
+	this.clicked = 0;
 	this.visible = 1;
-	//this.indexi = locationX;
-	//this.indexj = locationY;
-	//this.img = this.m_img = new createjs.Shape;
 	this.img = new createjs.Bitmap(qp_resourceList.getResult("block"));
-    
-    //this.img.scaleX = (qp_blockSize / this.img.image.width);
-	//this.img.scaleY = (qp_blockSize / this.img.image.height);
-
-	this.img.on("mousedown", function () {
-		createjs.Tween.get(this).to({alpha:0}, 1000);
-		//this.scaleY = this.scaleX = 0;
-		qp_stepBoard.setStepNum_IncreaseOneStep();
-		qp_scoreBoard.decreaseScore(10);
-		
-		this.visible = 0;
-	});	
+	this.img.on("mousedown", function (evt, data) {
+		if(data.obj.clicked == 0) {
+			createjs.Tween.get(data.obj.img).to({alpha:0}, 100);
+			//this.scaleY = this.scaleX = 0;
+			qp_stepBoard.setStepNum_IncreaseOneStep();
+			qp_scoreBoard.decreaseScore(10);
+			data.obj.clicked = 1;	
+		}
+	}, null, false, {obj: this});	
 	this.addChild(this.img);
 };
 C_imgBlock.prototype = new createjs.Container;
@@ -207,15 +226,15 @@ var C_imgBlockCollection = function (thuImgName, width, height, blockNum) {
 	
 	//qp_mapContainer.addChild(this.thuImg);	
 	this.addChild(this.thuImg);
-	this.m_allblocks = [];
-	this.m_visibleMap = [];
+	this.allblocks = [];
+	//this.m_visibleMap = [];
 
 };
 C_imgBlockCollection.prototype = new createjs.Container;
 C_imgBlockCollection.prototype.initBlocks = function () {
 	for (var x = 0; x < qp_blockYNum; x++) {
 		for (var y = 0; y < qp_blockXNum; y++) {
-			this.m_allblocks[x * qp_blockXNum + y] = new C_imgBlock(x, y);
+			this.allblocks[x * qp_blockXNum + y] = new C_imgBlock(x, y);
 		
 		}
 	}
@@ -225,9 +244,11 @@ C_imgBlockCollection.prototype.initBlocks = function () {
 C_imgBlockCollection.prototype.addBlocks = function() {
 	for (var x = 0; x < this.blockNum; x++) {
 		for (var y = 0; y < this.blockNum; y++) {
-			var  tblock = this.m_allblocks[x * qp_blockXNum + y];
+			var  tblock = this.allblocks[x * qp_blockXNum + y];
 			tblock.alpha = 0;
-			createjs.Tween.get(tblock).to({alpha:1}, 1000).call(showThuImg);   //animation
+			createjs.Tween.get(tblock).to({alpha:1}, 300).call(function() {
+	                    qp_imgBlockCollection.thuImg.alpha =1;
+                    } );   //animation
 			tblock.scaleX = this.blocksizex / tblock.getBounds().width;
 			tblock.scaleY= this.blocksizey / tblock.getBounds().height;
 			tblock.x = this.blocksizex * x ;
@@ -238,55 +259,124 @@ C_imgBlockCollection.prototype.addBlocks = function() {
 		}
 	}
 };
-var showThuImg = function() {
-	createjs.Tween.get(qp_imgBlockCollection.thuImg).to({alpha:1}, 1000); 
-};
+C_imgBlockCollection.prototype.removeAllBlocks = function() {
+	for (var x = 0; x < this.blockNum; x++) {
+		for (var y = 0; y < this.blockNum; y++) {
+			var  tblock = this.allblocks[x * qp_blockXNum + y];
+			createjs.Tween.get(tblock).to({alpha:0}, 500);
+	   }
+	}
+}
 
-
-var C_answerItem = function(xoff, yoff, isanswer) {
+var C_answerItem = function( text, isanswer, ansCollection) {
 	this.initialize();
 	
 	this.btn = new createjs.Bitmap(qp_resourceList.getResult("btn"));
 	this.btnTrue = new createjs.Bitmap(qp_resourceList.getResult("btnTrue"));
 	this.btnFalse = new createjs.Bitmap(qp_resourceList.getResult("btnFalse"));
+	this.ansText = new createjs.Text(text , "bold 50px Arial");
+	
 	this.isans = isanswer; //1 means this is the rigth answer
 	this.pressed = 0; //1 means is pressed
 	
-	this.btn.x = this.btnTrue.x = this.btnFalse.x = xoff;
-	this.btn.y = this.btnTrue.y = this.btnFalse.y = yoff;
-	this.btnTrue.alpha = 0;
-	this.btnFalse.appha = 0;
-	
+//	var ansBtnSize = 30;
+	this.btn.scaleX = this.btnTrue.scaleX = this.btnFalse.scaleX = 0.5;
+//    (ansBtnSize / this.btn.getBounds().width);
+	this.btn.scaleY = this.btnTrue.scaleY = this.btnFalse.scaleY = 0.5;
+	//    (ansBtnSize / this.btn.getBounds().height);
 
-	this.btn.on("mousedown", function () {
-		IS_TOUCH && this.nativeEvent instanceof MouseEvent || 
-		(this.scaleY = this.scaleX = 0.95);
-	});
-	this.btn.on("pressup", function () {
-		this.scaleY = this.scaleX = 1;
-		if(isans) {
-			qp_mapContainer.addChild(this.btnTrue);
+	//this.btnTrue.alpha = 0;
+	//this.btnFalse.appha = 0;
+	
+	this.ansText.x = this.btn.getBounds().width - 10;
+	this.ansText.y = -5;
+	this.addChild(this.ansText);	
+    this.addChild(this.btn);
+    
+	this.btn.on("mousedown", function (evt, data) {
+		if(data.obj2.haveChosed == 0 && data.obj.pressed == 0) {
+			IS_TOUCH && this.nativeEvent instanceof MouseEvent || 
+			(this.scaleY = this.scaleX = 0.45);			
 		}
-		else {
-			qp_mapContainer.addChild(this.btnFalse);
+		
+
+	}, null, false,  {obj: this, obj2: ansCollection});
+	this.btn.on("pressup", function (evt, data) {
+		if(data.obj2.haveChosed == 0 &&data.obj.pressed == 0) {
+			this.scaleY = this.scaleX = 0.5;
+			//console.log("data.obj", data.obj);
+			
+			if(data.obj.isans == 1) {
+				data.obj.addChild(data.obj.btnTrue);	
+				qp_score += 150;
+				qp_scoreBoard.setScoreNum();
+				
+				qp_imgBlockCollection.removeAllBlocks();
+			}
+			else {
+				data.obj.addChild(data.obj.btnFalse);
+				qp_score -= 50;
+				qp_scoreBoard.setScoreNum();
+				qp_imgBlockCollection.removeAllBlocks();
+				data.obj2.showAnswer();
+			}
+			
+			if(qp_curIndex + 1 < qp_answerNum) {
+				qp_mapContainer.addChild(qp_nextbtn);	
+			}
+			else {
+				qp_mapContainer.addChild(qp_topbtn);
+			}
+
+			
+			data.obj.pressed = 1;
+			data.obj2.haveChosed = 1;
 		}
-		this.pressed = 1;
-	});
+	}, null, false, {obj: this, obj2: ansCollection});
 	
 };
 C_answerItem.prototype = new createjs.Container;
+C_answerItem.prototype.showAnswer = function() {
+	if(this.isans == 1 && this.pressed == 0) {
+		this.addChild(this.btnTrue);	
+	}	
+}
 
+var C_answerCollection = function(ansText, isAns) {
+	
+	this.isAns = isAns;
+	this.allAnsItems = [];
+	this.haveChosed = 0;
+	
+	for(var i = 0; i < 4; i++ ) {
+		this.allAnsItems[i] = new C_answerItem(ansText[i], isAns[i], this);
+		this.addChild(this.allAnsItems[i]);
+	}
+	this.allAnsItems[1].x = this.allAnsItems[0].getBounds().width + 20;
+	this.allAnsItems[2].y = this.allAnsItems[0].getBounds().height + 10;
+	this.allAnsItems[3].x = this.allAnsItems[0].getBounds().width + 20;
+	this.allAnsItems[3].y = this.allAnsItems[0].getBounds().height + 10;
+	
+};
+C_answerCollection.prototype = new createjs.Container;
+C_answerCollection.prototype.showAnswer = function() {
+	for(var i = 0; i < 4; i++ ) {
+		this.allAnsItems[i].showAnswer();
+	}
+	
+	
+}
 
 var StepBoard = function (img) {
 	this.initialize();
-	this.stepnum = 0;
+	//this.stepnum = qp_step;
 	
 	//var c = new createjs.Bitmap(queue.getResult(img));
 	//this.addChild(c);
 	var word = new createjs.Text("Step:", "bold 60px Arial");
     this.addChild(word);
 	//var d = Math.abs(score);
-	this.stepboardlabel = new createjs.Text(this.stepnum.toString(), "50px Arial");
+	this.stepboardlabel = new createjs.Text(qp_step.toString(), "50px Arial");
 	//this.stepboardlabel.textBaseline = "middle";
 	this.stepboardlabel.x = word.getBounds().width + 10;
 	this.stepboardlabel.y = 10;
@@ -295,183 +385,48 @@ var StepBoard = function (img) {
 StepBoard.prototype = new createjs.Container;
 StepBoard.prototype.setStepNum = function () {
 	//var a = Math.abs(score);
-	this.stepboardlabel.text = this.stepnum.toString();
+	this.stepboardlabel.text = qp_step.toString();
 };
 StepBoard.prototype.setStepNum_IncreaseOneStep = function () {
 	//score--;
-	this.stepnum++;
+	qp_step++;
 	this.setStepNum();
 };
 StepBoard.prototype.reSet = function () {
 	//score = 0;
-	this.stepnum = 0;
+	qp_step = 0;
 	this.setStepNum();
 };
 
 
-var C_ScoreBoard = function (img, tscore) {
+var C_ScoreBoard = function (img) {
 	this.initialize();
-	this.tscore = tscore;
+	//this.tscore = qp_score;
 	
 	//var c = new createjs.Bitmap(queue.getResult(img));
 	//this.addChild(c);
 	var word = new createjs.Text("Score:", "bold 60px Arial");
     this.addChild(word);
-	this.stepboardlabel = new createjs.Text(this.tscore.toString(), "50px Arial");
+	this.stepboardlabel = new createjs.Text(qp_score.toString(), "50px Arial");
 	//this.stepboardlabel.textBaseline = "middle";
 	this.stepboardlabel.x = word.getBounds().width + 10;
 	this.stepboardlabel.y = 10;
 	this.addChild(this.stepboardlabel);
 };
 C_ScoreBoard.prototype = new createjs.Container;
-C_ScoreBoard.prototype.setStepNum = function () {
+C_ScoreBoard.prototype.setScoreNum = function () {
 	
-	this.stepboardlabel.text = this.tscore.toString();
+	this.stepboardlabel.text = qp_score.toString();
 };
 C_ScoreBoard.prototype.increaseScore = function (num) {
-	this.tscore = this.tscore + num;
-	this.setStepNum();
+	qp_score = qp_score + num;
+	this.setScoreNum();
 };
 C_ScoreBoard.prototype.decreaseScore = function (num) {
-	this.tscore = this.tscore - num;
-	this.setStepNum();
+	qp_score = qp_score - num;
+	this.setScoreNum();
 };
 C_ScoreBoard.prototype.reSet = function () {
-	this.tscore = 1000;
-	this.setStepNum();
+	qp_score = 500;
+	this.setScoreNum();
 };
-
-//
-//var C_mapClassBase = function (a) {      //C_mapClassBase,  C_mapItem, C_q
-//	this.m_colorarray = a;
-//	this.m_allitems = [];     //array of C_mapItem
-//	this.m_stepover = !1;
-//	this.m_changeditems = [];
-//	this.m_fxarray = [];
-//};
-//C_mapClassBase.prototype.randomMap = function () {
-//	for (var a = 0; a < qp_blockYNum; a++) {
-//		for (var b = 0; b < qp_blockXNum; b++) {
-//			var c = Math.floor(Math.random() * this.m_colorarray.length);
-//			this.m_allitems[a * qp_blockXNum + b] = new C_mapItem(this.m_colorarray[c], a, b);
-//		}
-//	}
-//};
-//C_mapClassBase.prototype.initfirstflood = function () {
-//	this.m_allitems[0].isflooded = !0;
-//	this.m_changeditems.push(this.m_allitems[0]);
-//};
-//C_mapClassBase.prototype.floodX = function (a, b) {
-//	for (var c = 0; c < qp_blockXNum; c++) {
-//		this.validij(c, b) && !0 == qp_mapClass.m_allitems[b * qp_blockXNum + c].isflooded 
-//		    && b * qp_blockXNum + c < qp_blockXNum * qp_blockYNum - 1 && b * qp_blockXNum + c < (b + 1) * qp_blockXNum - 1
-//		    && !1 == qp_mapClass.m_allitems[b * qp_blockXNum + c + 1].isflooded 
-//		    && qp_mapClass.m_allitems[b * qp_blockXNum + c + 1].color == a 
-//		    && (this.m_stepover = !1, qp_mapClass.m_allitems[b * qp_blockXNum + c + 1].isflooded = !0,
-//		    	this.m_fxarray.push(qp_mapClass.m_allitems[b * qp_blockXNum + c + 1]));
-//	}
-//	for (c = qp_blockXNum - 1; 0 <= c; c--) {
-//		this.validij(c, b) && !0 == qp_mapClass.m_allitems[b * qp_blockXNum + c].isflooded 
-//		&& 0 < b * qp_blockXNum + c && b * qp_blockXNum + c > b * qp_blockXNum
-//		&& !1 == qp_mapClass.m_allitems[b * qp_blockXNum + c - 1].isflooded 
-//		&& qp_mapClass.m_allitems[b * qp_blockXNum + c - 1].color == a 
-//		&& (this.m_stepover = !1, qp_mapClass.m_allitems[b * qp_blockXNum + c - 1].isflooded = !0,
-//			this.m_fxarray.push(qp_mapClass.m_allitems[b * qp_blockXNum + c - 1]));
-//	}
-//};
-//C_mapClassBase.prototype.floodY = function (a, b) {
-//	for (var c = 0; c < qp_blockYNum; c++) {
-//		this.validij(b, c) && !0 == qp_mapClass.m_allitems[c * qp_blockXNum + b].isflooded 
-//		&& (c + 1) * qp_blockXNum + b < qp_blockXNum * qp_blockYNum && !1 == qp_mapClass.m_allitems[(c + 1) * qp_blockXNum + b].isflooded 
-//		&& qp_mapClass.m_allitems[(c + 1) * qp_blockXNum + b].color == a 
-//		&& (this.m_stepover = !1, qp_mapClass.m_allitems[(c + 1) * qp_blockXNum + b].isflooded = !0, this.m_fxarray.push(qp_mapClass.m_allitems[(c + 1) * qp_blockXNum + b]));
-//	}
-//	for (c = qp_blockYNum - 1; 0 <= c; c--) {
-//		this.validij(b, c) && !0 == qp_mapClass.m_allitems[c * qp_blockXNum + b].isflooded 
-//		&& 0 < (c - 1) * qp_blockXNum + b && !1 == qp_mapClass.m_allitems[(c - 1) * qp_blockXNum + b].isflooded 
-//		&& qp_mapClass.m_allitems[(c - 1) * qp_blockXNum + b].color == a 
-//		&& (this.m_stepover = !1, qp_mapClass.m_allitems[(c - 1) * qp_blockXNum + b].isflooded = !0, this.m_fxarray.push(qp_mapClass.m_allitems[(c - 1) * qp_blockXNum + b]));
-//	}
-//};
-//C_mapClassBase.prototype.flood = function (a, b) {
-//	for (this.m_fxarray = []; !0 != this.m_stepover; ) {
-//		this.m_stepover = !0;
-//		for (var c = 0; c < Math.max(qp_blockXNum, qp_blockYNum); c++) {
-//			this.floodY(a, c);
-//		}
-//		for (c = 0; c < Math.max(qp_blockXNum, qp_blockYNum); c++) {
-//			this.floodX(a, c);
-//		}
-//	}
-//	0 < this.m_fxarray.length && (qp_q(this.m_fxarray, a, b), qp_stepBoard.setStepNum_IncreaseOneStep());
-//	this.m_stepover = !1;
-//};
-//C_mapClassBase.prototype.validij = function (a, b) {
-//	return 0 > a || a >= qp_blockXNum || 0 > b || b >= qp_blockYNum ? !1 : !0;
-//};
-//C_mapClassBase.prototype.get1Dindex = function (a, b) {
-//	return this.validij(a, b) ? b * qp_blockXNum + a : -1;
-//};
-//C_mapClassBase.prototype.isGameOver = function () {
-//	return qp_mapClass.m_changeditems.length >= qp_blockXNum * qp_blockYNum ? !0 : !1;
-//};
-//
-//function qp_q(a, b, c) {
-//	for (var d = 0; d < a.length; d++) {
-//		qp_mapClass.m_changeditems.push(a[d]);
-//	}
-//	for (d = 0; d < qp_mapClass.m_changeditems.length; d++) {
-//		a = (qp_mapClass.m_changeditems[d].indexj + qp_mapClass.m_changeditems[d].indexi + 1) * qp_c, createjs.Tween.get(qp_mapClass.m_changeditems[d].img).to({alpha:1}, a).call(function () {
-//			this.graphics.clear();
-//			this.graphics.f(b).r(0, 0, qp_blockSize, qp_blockSize);
-//		}).to({alpha:1}, 0);
-//	}
-//	!0 != c && qp_s(b);
-//}
-//
-//function qp_addAllMapItems(a) {
-//	for (a = 0; a < qp_blockYNum; a++) {
-//		for (var b = 0; b < qp_blockXNum; b++) {
-//			var c = (a + b + 1) * qp_c, 
-//			    d = qp_mapClass.m_allitems[a * qp_blockXNum + b].img;
-//			d.alpha = 0;
-//			createjs.Tween.get(d).to({alpha:0}, c).to({alpha:1}, 100);   //animation
-//			d.x = qp_xoffset + qp_blockSize * b + qp_blockSize / 2  - b;
-//			d.y = qp_yoffset + qp_blockSize * a + qp_blockSize / 2  - a;
-//			qp_mapContainer.addChild(d);
-//		}
-//	}
-//}
-//
-//function qp_s(a) {
-//	a == COLOR_RED && createjs.Sound.play("do", !0);
-//	a == COLOR_YELLOW && createjs.Sound.play("re", !0);
-//	a == COLOR_PURPLE && createjs.Sound.play("mi", !0);
-//	a == COLOR_BLUE && createjs.Sound.play("fa", !0);
-//	a == COLOR_GREEN && createjs.Sound.play("so", !0);
-//	a == COLOR_PINK && createjs.Sound.play("la", !0);
-//}
-//var C_mapItem = function (a, b, c) {
-//	this.color = this.m_color = a;
-//	this.isflooded = this.m_isflooded = !1;
-//	this.indexi = b;
-//	this.indexj = c;
-//	this.img = this.m_img = new createjs.Shape;
-//	//this.img = this.m_img = new createjs.Bitmap(qp_resourceList.getResult("block"));
-//	this.img.on("mousedown", function () {
-//		this.scaleY = this.scaleX = 0;
-//		//this.alpha = 0;
-//	});	
-//	this.m_img.graphics.f(a).r(0, 0, qp_blockSize, qp_blockSize).ef();
-//	this.m_img.regX = qp_blockSize / 2;
-//	this.m_img.regY = qp_blockSize / 2;
-//	
-//	this.img.scaleX = this.img.scaleY= 0.95;
-//	this.floodGird = function () {
-//		this.m_isflooded = !0;
-//	};
-//	this.fillcolor = function (a) {
-//	};
-//};
-//C_mapItem.prototype = new createjs.Container;
-
