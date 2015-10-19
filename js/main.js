@@ -23,12 +23,12 @@ function resourceLoadComplete(a) {
 function loadResource() {
 	SCREEN_SHOW_ALL = !0;
 	qp_resourceList = new createjs.LoadQueue;
-	var a = new ProgressBar(0.8 * W, 40);
-	a.regX = a.w / 2;
-	a.regY = a.h / 2;
-	a.x = W / 2;
-	a.y = H / 2;
-	stage.addChild(a);
+	var loadProgress = new ProgressBar(0.8 * W, 40);
+	loadProgress.regX = loadProgress.w / 2;
+	loadProgress.regY = loadProgress.h / 2;
+	loadProgress.x = W / 2;
+	loadProgress.y = H / 2;
+	stage.addChild(loadProgress);
 	$.getJSON("game.json", function(data) {
 		qp_gameJsonArray = data;	
 		qp_answerNum = qp_gameJsonArray.gameInfo.length;
@@ -53,7 +53,7 @@ function loadResource() {
 	       {src:"btnFalse.png", id:"btnFalse"},
 	       {src:"nextbtn.png", id:"nextbtn"}]}, !1);
 	       
-	a.forQueue(qp_resourceList);
+	loadProgress.forQueue(qp_resourceList);
 	qp_resourceList.load();
 };
 
