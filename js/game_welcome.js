@@ -82,6 +82,9 @@ var WelComeScene = function (gameFunc, stage) {
 	});
 	btn2.on("pressup", function () {
 		this.scaleY = this.scaleX = 1;
+	    stage.removeAllChildren();
+				
+        GameoverScene();
 	});
 };
 
