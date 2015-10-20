@@ -15,7 +15,7 @@ function clickMore(){
 	//goHome();
 }
 function dp_share(){
-	document.title ="我用了"+qp_score+"步完成了超级染色体，你也来试试吧！";
+	document.title ="我在酒井猜图游戏中获得"+qp_score+"分，你也来试试吧！";
 	document.getElementById("share").style.display="";
 	window.shareData.tTitle = document.title;
 }
@@ -56,10 +56,10 @@ var myData = {};
 function dp_submitScore(score,level){
 	myscore = qp_score;
 	mystep = qp_step
-	myData.score = score;
-	myData.scoreName = score;
+	myData.score = qp_score;
+	myData.scoreName = qp_score;
 	if(score>5){
-		if (confirm("真行,你用了"+score+"步！要不要通知下小伙伴们呢？")){
+		if (confirm("真行,你获得了"+qp_score+"分！要不要通知下小伙伴们呢？")){
 			dp_share();
 		}
 	}

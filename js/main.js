@@ -4,16 +4,16 @@ var	qp_stepBoard, qp_scoreBoard, qp_mapContainer,
 var  qp_curIndex;
 
 //game json information 
-var  qp_gameJsonText = '{"gameInfo":[' +
-    '{"img":"thu1", "ansArray":[{"text": "place1_1", "isans": 0}, {"text": "place1_2", "isans": 0}, {"text": "place1_3", "isans": 1},{"text": "place1_4", "isans": 0}] },' +
-    '{"img":"thu2", "ansArray":[{"text": "place2_1", "isans": 1}, {"text": "place2_2", "isans": 0}, {"text": "place2_3", "isans": 0},{"text": "place2_4", "isans": 0}] },'+
-    '{"img":"thu1", "ansArray":[{"text": "place3_1", "isans": 0}, {"text": "place3_2", "isans": 1}, {"text": "place3_3", "isans": 0},{"text": "place3_4", "isans": 0}] },' +
-    '{"img":"thu2", "ansArray":[{"text": "place4_1", "isans": 0}, {"text": "place4_2", "isans": 0}, {"text": "place4_3", "isans": 0},{"text": "place4_4", "isans": 1}] }'+
- ']}';
+//var  qp_gameJsonText = '{"gameInfo":[' +
+//  '{"img":"thu1", "ansArray":[{"text": "place1_1", "isans": 0}, {"text": "place1_2", "isans": 0}, {"text": "place1_3", "isans": 1},{"text": "place1_4", "isans": 0}] },' +
+//  '{"img":"thu2", "ansArray":[{"text": "place2_1", "isans": 1}, {"text": "place2_2", "isans": 0}, {"text": "place2_3", "isans": 0},{"text": "place2_4", "isans": 0}] },'+
+//  '{"img":"thu1", "ansArray":[{"text": "place3_1", "isans": 0}, {"text": "place3_2", "isans": 1}, {"text": "place3_3", "isans": 0},{"text": "place3_4", "isans": 0}] },' +
+//  '{"img":"thu2", "ansArray":[{"text": "place4_1", "isans": 0}, {"text": "place4_2", "isans": 0}, {"text": "place4_3", "isans": 0},{"text": "place4_4", "isans": 1}] }'+
+// ']}';
 
-var qp_gameJsonArray = eval("(" + qp_gameJsonText + ")");
+var qp_gameJsonArray;// = eval("(" + qp_gameJsonText + ")");
 //var qp_gameJsonArray = eval("(" + qp_txt + ")");
-var qp_answerNum = 4;
+var qp_answerNum;// = 4;
 
 
 function resourceLoadComplete(a) {
@@ -23,12 +23,19 @@ function resourceLoadComplete(a) {
 function loadResource() {
 	SCREEN_SHOW_ALL = !0;
 	qp_resourceList = new createjs.LoadQueue;
-	var a = new ProgressBar(0.8 * W, 40);
-	a.regX = a.w / 2;
-	a.regY = a.h / 2;
-	a.x = W / 2;
-	a.y = H / 2;
-	stage.addChild(a);
+	var loadProgress = new ProgressBar(0.8 * W, 40);
+	loadProgress.regX = loadProgress.w / 2;
+	loadProgress.regY = loadProgress.h / 2;
+	loadProgress.x = W / 2;
+	loadProgress.y = H / 2;
+	stage.addChild(loadProgress);
+	$.getJSON("game.json", function(data) {
+		qp_gameJsonArray = data;	
+		qp_answerNum = qp_gameJsonArray.gameInfo.length;
+		console.log("game number:", qp_answerNum);
+	});
+	
+	
 	queue = qp_resourceList = new createjs.LoadQueue(!1);
 	qp_resourceList.on("complete", resourceLoadComplete, null, !0);
 	LoadWelComeSceneRes();
@@ -46,7 +53,7 @@ function loadResource() {
 	       {src:"btnFalse.png", id:"btnFalse"},
 	       {src:"nextbtn.png", id:"nextbtn"}]}, !1);
 	       
-	a.forQueue(qp_resourceList);
+	loadProgress.forQueue(qp_resourceList);
 	qp_resourceList.load();
 };
 

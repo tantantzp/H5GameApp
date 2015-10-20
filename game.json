@@ -1,0 +1,54 @@
+{"gameInfo":
+[ 
+    {
+        "img":"thu1", 
+        "ansArray":
+        [
+            {"text": "place1_1", "isans": 0}, 
+            {"text": "place1_2", "isans": 0}, 
+            {"text": "place1_3", "isans": 1},
+           {"text": "place1_4", "isans": 0}
+        ] 
+    },
+    {
+    	"img":"thu2", 
+    	"ansArray":
+    	[
+    	    {"text": "place2_1", "isans": 1}, 
+    	    {"text": "place2_2", "isans": 0}, 
+    	    {"text": "place2_3", "isans": 0},
+    	    {"text": "place2_4", "isans": 0}
+        ] 
+    },
+    {
+    	"img":"thu1", 
+    	"ansArray":
+    	[
+    	    {"text": "place3_1", "isans": 0}, 
+    	    {"text": "place3_2", "isans": 1}, 
+    	    {"text": "place3_3", "isans": 0},
+    	    {"text": "place3_4", "isans": 0}
+    	] 
+    },
+    {
+    	"img":"thu2", 
+    	"ansArray":
+    	[
+    	    {"text": "place4_1", "isans": 0}, 
+    	    {"text": "place4_2", "isans": 0}, 
+    	    {"text": "place4_3", "isans": 0},
+    	    {"text": "place4_4", "isans": 1}
+    	] 
+    },
+    {
+        "img":"thu1", 
+        "ansArray":
+        [
+            {"text": "place5_1", "isans": 0}, 
+            {"text": "place5_2", "isans": 0}, 
+            {"text": "place5_3", "isans": 0},
+            {"text": "place5_4", "isans": 1}
+        ] 
+    }
+]
+}
