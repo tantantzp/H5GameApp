@@ -4,7 +4,11 @@ var stage, W = 640, H = 960, IS_TOUCH, SCREEN_SHOW_ALL = !1,
 var qp_score = 0, qp_best = 500, qp_step = 0;
 
 var RES_DIR = "";
-
+var USE_NATIVE_SOUND = !1;
+var USE_NATIVE_SHARE = !1;
+var IS_IOS = navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? !0 : !1;
+var IS_ANDROID = false;//-1 < navigator.userAgent.indexOf("Android");
+var IS_NATIVE_ANDROID = IS_ANDROID && -1 < navigator.userAgent.indexOf("Version");
 
 onload = function () {
 	stage = new createjs.Stage("stage");
@@ -54,6 +58,19 @@ createjs.Container.prototype.addCenterChild = function (a) {
 	this.addChild(a);
 };
 
+USE_NATIVE_SOUND ? createjs.Sound.play = function (a) {
+	window.open("qipa://sound/" + GID + "/" + a);
+} : IS_NATIVE_ANDROID && (createjs.Sound.play = function (a, b) {
+	var c = queue.getResult("sound");
+	c.currentTime = this.soundSprite[a];
+	c.play();
+	void 0 != b && !0 == b && (null != g_androidsoundtimer && (clearTimeout(g_androidsoundtimer), g_androidsoundtimer = null), g_androidsoundtimer = setTimeout(function () {
+		createjs.Sound.play("silenttail");
+	}, 1000));
+}, createjs.Sound.registMySound = function (a, b) {
+	this.soundSprite || (this.soundSprite = {});
+	this.soundSprite[a] = b;
+});
 
 function showFPS() {
 	var a = new createjs.Text("", "bold 24px Arial", "red");

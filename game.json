@@ -1,7 +1,7 @@
 {"gameInfo":
 [ 
     {
-        "img":"thu1", 
+        "img":"jiujing1", 
         "ansArray":
         [
             {"text": "place1_1", "isans": 0}, 
@@ -11,7 +11,7 @@
         ] 
     },
     {
-    	"img":"thu2", 
+    	"img":"jiujing2", 
     	"ansArray":
     	[
     	    {"text": "place2_1", "isans": 1}, 
@@ -21,7 +21,7 @@
         ] 
     },
     {
-    	"img":"thu1", 
+    	"img":"jiujing3", 
     	"ansArray":
     	[
     	    {"text": "place3_1", "isans": 0}, 
@@ -31,7 +31,7 @@
     	] 
     },
     {
-    	"img":"thu2", 
+    	"img":"jiujing4", 
     	"ansArray":
     	[
     	    {"text": "place4_1", "isans": 0}, 
@@ -41,7 +41,57 @@
     	] 
     },
     {
-        "img":"thu1", 
+        "img":"jiujing5", 
+        "ansArray":
+        [
+            {"text": "place5_1", "isans": 0}, 
+            {"text": "place5_2", "isans": 0}, 
+            {"text": "place5_3", "isans": 0},
+            {"text": "place5_4", "isans": 1}
+        ] 
+    },
+    {
+        "img":"jiujing6", 
+        "ansArray":
+        [
+            {"text": "place5_1", "isans": 0}, 
+            {"text": "place5_2", "isans": 0}, 
+            {"text": "place5_3", "isans": 0},
+            {"text": "place5_4", "isans": 1}
+        ] 
+    },
+    {
+        "img":"jiujing7", 
+        "ansArray":
+        [
+            {"text": "place5_1", "isans": 0}, 
+            {"text": "place5_2", "isans": 0}, 
+            {"text": "place5_3", "isans": 0},
+            {"text": "place5_4", "isans": 1}
+        ] 
+    },
+    {
+        "img":"jiujing8", 
+        "ansArray":
+        [
+            {"text": "place5_1", "isans": 0}, 
+            {"text": "place5_2", "isans": 1}, 
+            {"text": "place5_3", "isans": 0},
+            {"text": "place5_4", "isans": 0}
+        ] 
+    },
+    {
+        "img":"jiujing9", 
+        "ansArray":
+        [
+            {"text": "place5_1", "isans": 0}, 
+            {"text": "place5_2", "isans": 0}, 
+            {"text": "place5_3", "isans": 1},
+            {"text": "place5_4", "isans": 0}
+        ] 
+    },
+    {
+        "img":"jiujing10", 
         "ansArray":
         [
             {"text": "place5_1", "isans": 0}, 

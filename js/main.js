@@ -22,7 +22,7 @@ function resourceLoadComplete(a) {
 
 function loadResource() {
 	SCREEN_SHOW_ALL = !0;
-	qp_resourceList = new createjs.LoadQueue;
+	//qp_resourceList = new createjs.LoadQueue;
 	var loadProgress = new ProgressBar(0.8 * W, 40);
 	loadProgress.regX = loadProgress.w / 2;
 	loadProgress.regY = loadProgress.h / 2;
@@ -32,29 +32,52 @@ function loadResource() {
 	$.getJSON("game.json", function(data) {
 		qp_gameJsonArray = data;	
 		qp_answerNum = qp_gameJsonArray.gameInfo.length;
-		console.log("game number:", qp_answerNum);
+		//console.log("game number:", qp_answerNum);
 	});
 	
 	
 	queue = qp_resourceList = new createjs.LoadQueue(!1);
-	qp_resourceList.on("complete", resourceLoadComplete, null, !0);
+	
+	queue.on("complete", resourceLoadComplete, null, !0);
 	LoadWelComeSceneRes();
 	LoadGameoverSceneRes();
-	
-	qp_resourceList.loadManifest({path:RES_DIR + "img/", 
+	queue.loadManifest({path:RES_DIR + "img/", 
 	       manifest:[
 	       {src:"bg.jpg", id:"bg"}, 
+	       {src:"gamebg.jpg", id:"gameBg"}, 
+	       {src:"blurbg.jpg", id:"blurBg"}, 
 	       {src:"bggray.png", id:"bggray"},	       
 	       {src:"block.png", id:"block"},
+	       {src:"game/jiujing1.jpg", id:"jiujing1"},
+	       {src:"game/jiujing2.jpg", id:"jiujing2"},
+	       {src:"game/jiujing3.jpg", id:"jiujing3"},
+	       {src:"game/jiujing4.jpg", id:"jiujing4"},
+	       {src:"game/jiujing5.jpg", id:"jiujing5"},
+	       {src:"game/jiujing6.jpg", id:"jiujing6"},
+	       {src:"game/jiujing7.jpg", id:"jiujing7"},
+	       {src:"game/jiujing8.jpg", id:"jiujing8"},
+	       {src:"game/jiujing9.jpg", id:"jiujing9"},
+	       {src:"game/jiujing10.jpg", id:"jiujing10"},
 	       {src:"thu1.jpg", id:"thu1"},
 	       {src:"thu2.jpg", id:"thu2"},
 	       {src:"btn.png", id:"btn"},
 	       {src:"btnTrue.png", id:"btnTrue"},
 	       {src:"btnFalse.png", id:"btnFalse"},
 	       {src:"nextbtn.png", id:"nextbtn"}]}, !1);
-	       
-	loadProgress.forQueue(qp_resourceList);
-	qp_resourceList.load();
+	USE_NATIVE_SOUND || (IS_NATIVE_ANDROID ? 
+		(createjs.Sound.registMySound("flip", 0), 
+		 createjs.Sound.registMySound("bonus", 2), 
+		queue.loadFile({id:"sound", src:RES_DIR + "audio/all.mp3"})) 
+		: (createjs.Sound.alternateExtensions = ["ogg"],
+		   queue.installPlugin(createjs.Sound), 
+		   queue.loadManifest({path:RES_DIR + "audio/",
+		        manifest:[
+		        {src:"flip.mp3", id:"flip"} ,
+		        {src:"bonus.mp3", id:"bonus"}
+		        ]}, !1))
+		   );
+	loadProgress.forQueue(queue);
+	queue.load();
 };
 
 
@@ -62,31 +85,30 @@ function loadResource() {
 function qp_gameFunc(index) {
 	this.index = index;
 	qp_curIndex = index;
-	var blockNum = 5 + Math.floor(index);
-	 
-	stage.removeAllChildren();
+	var blockNum = 6 + Math.floor(index);
+	
 	
 	qp_mapContainer = new createjs.Container;
 	stage.addChild(qp_mapContainer);	
 	
 	//add  backgroud
 	var tbgmap;
-	tbgmap = new createjs.Bitmap(qp_resourceList.getResult("bg"));
+	tbgmap = new createjs.Bitmap(qp_resourceList.getResult("gameBg"));
 	tbgmap.x = 0;
 	tbgmap.y = 0 ;
-	tbgmap.alpha = 0.5
+	//tbgmap.alpha = 0.5
 	tbgmap.scaleX = (ScreenWidth / tbgmap.image.width) ;
 	tbgmap.scaleY = (ScreenHeight / tbgmap.image.height);
 	qp_mapContainer.addChild(tbgmap);          //add background img
 	
-	var tbggray;
-	tbggray = new createjs.Bitmap(qp_resourceList.getResult("bggray"));
-	tbggray.x = 0;
-	tbggray.y = 0 ;
-	tbggray.scaleX = (ScreenWidth / tbggray.image.width);
-	tbggray.scaleY = (ScreenHeight / tbggray.image.height);
-	qp_mapContainer.addChild(tbggray);          //add background img
-	
+//	var tbggray;
+//	tbggray = new createjs.Bitmap(qp_resourceList.getResult("bggray"));
+//	tbggray.x = 0;
+//	tbggray.y = 0 ;
+//	tbggray.scaleX = (ScreenWidth / tbggray.image.width);
+//	tbggray.scaleY = (ScreenHeight / tbggray.image.height);
+//	qp_mapContainer.addChild(tbggray);          //add background img
+//	
 	
 	
 	//read game infomation from json obj
@@ -99,7 +121,7 @@ function qp_gameFunc(index) {
 	}
 	
 	//game page block set
-    var xoffset = 60, yoffset = 115;
+    var xoffset = 60, yoffset = 120;
     var allBlockWidth = ScreenWidth - xoffset * 2;
     var allBlockHeight = allBlockWidth;
    
@@ -127,19 +149,19 @@ function qp_gameFunc(index) {
 	qp_mapContainer.addChild(qp_answerCollection);
     
 	//create stepBoard and socreBoard
-	qp_stepBoard = new StepBoard("step");    //show the used step number
-	qp_stepBoard.x = 450;
-	qp_stepBoard.y = 20;
-	qp_stepBoard.scaleX = (100 / qp_stepBoard.getBounds().width);
-	qp_stepBoard.scaleY =  (50 / qp_stepBoard.getBounds().height);
-	qp_mapContainer.addChild(qp_stepBoard);
+//	qp_stepBoard = new StepBoard("step");    //show the used step number
+//	qp_stepBoard.x = 50;
+//	qp_stepBoard.y = 20;
+//	qp_stepBoard.scaleX = (100 / qp_stepBoard.getBounds().width);
+//	qp_stepBoard.scaleY =  (50 / qp_stepBoard.getBounds().height);
+//	qp_mapContainer.addChild(qp_stepBoard);
 
 	
 	qp_scoreBoard = new C_ScoreBoard("curscore");    //show the used step number
-	qp_scoreBoard.x = 50;
-	qp_scoreBoard.y = 20;
-	qp_scoreBoard.scaleX = (150 / qp_scoreBoard.getBounds().width);
-	qp_scoreBoard.scaleY =  (50 / qp_scoreBoard.getBounds().height);
+	qp_scoreBoard.x = 490
+	qp_scoreBoard.y = 12; 
+	//qp_scoreBoard.scaleX = (30 / qp_scoreBoard.getBounds().width);
+	//qp_scoreBoard.scaleY =  (40 / qp_scoreBoard.getBounds().height);
 	qp_mapContainer.addChild(qp_scoreBoard);	
 	
 	
@@ -206,9 +228,11 @@ var C_imgBlock = function (locationX, locationY) {
 	this.img = new createjs.Bitmap(qp_resourceList.getResult("block"));
 	this.img.on("mousedown", function (evt, data) {
 		if(data.obj.clicked == 0) {
+			createjs.Sound.play("flip", !0);
+			console.log("sound flip:", "flip");
 			createjs.Tween.get(data.obj.img).to({alpha:0}, 100);
 			//this.scaleY = this.scaleX = 0;
-			qp_stepBoard.setStepNum_IncreaseOneStep();
+			//qp_stepBoard.setStepNum_IncreaseOneStep();
 			qp_scoreBoard.decreaseScore(10);
 			data.obj.clicked = 1;	
 		}
@@ -253,7 +277,13 @@ C_imgBlockCollection.prototype.initBlocks = function () {
 C_imgBlockCollection.prototype.addBlocks = function() {
 	
 	for (var x = 0; x < this.blockNum; x++) {
-		var remove = Math.floor(Math.random() * this.blockNum);
+		var remove;
+		if(x % 2 == 0) {
+		    remove = Math.floor(Math.random() * 2);			
+		}
+		else {
+			remove = this.blockNum - 1 - Math.floor(Math.random() * 2);
+		}
 		for (var y = 0; y < this.blockNum; y++) {
 			if(y == remove) continue;
 			var tidx = x * this.blockNum + y;
@@ -287,39 +317,40 @@ var C_answerItem = function( text, isanswer, ansCollection) {
 	this.btn = new createjs.Bitmap(qp_resourceList.getResult("btn"));
 	this.btnTrue = new createjs.Bitmap(qp_resourceList.getResult("btnTrue"));
 	this.btnFalse = new createjs.Bitmap(qp_resourceList.getResult("btnFalse"));
-	this.ansText = new createjs.Text(text , "bold 50px Arial");
+	this.ansText = new createjs.Text(text , "bold 35px Arial");
 	
 	this.isans = isanswer; //1 means this is the rigth answer
 	this.pressed = 0; //1 means is pressed
 	
 //	var ansBtnSize = 30;
-	this.btn.scaleX = this.btnTrue.scaleX = this.btnFalse.scaleX = 0.5;
+	this.btn.scaleX = this.btnTrue.scaleX = this.btnFalse.scaleX = 0.6;
 //    (ansBtnSize / this.btn.getBounds().width);
-	this.btn.scaleY = this.btnTrue.scaleY = this.btnFalse.scaleY = 0.5;
+	this.btn.scaleY = this.btnTrue.scaleY = this.btnFalse.scaleY = 0.6;
 	//    (ansBtnSize / this.btn.getBounds().height);
 
 	//this.btnTrue.alpha = 0;
 	//this.btnFalse.appha = 0;
 	
-	this.ansText.x = this.btn.getBounds().width - 10;
-	this.ansText.y = -5;
+	this.ansText.x = this.btn.getBounds().width - 20;
+	this.ansText.y = 10;
 	this.addChild(this.ansText);	
     this.addChild(this.btn);
     
 	this.btn.on("mousedown", function (evt, data) {
 		if(data.obj2.haveChosed == 0 && data.obj.pressed == 0) {
 			IS_TOUCH && this.nativeEvent instanceof MouseEvent || 
-			(this.scaleY = this.scaleX = 0.45);			
+			(this.scaleY = this.scaleX = 0.5);			
 		}
 		
 
 	}, null, false,  {obj: this, obj2: ansCollection});
 	this.btn.on("pressup", function (evt, data) {
 		if(data.obj2.haveChosed == 0 &&data.obj.pressed == 0) {
-			this.scaleY = this.scaleX = 0.5;
+			this.scaleY = this.scaleX = 0.6;
 			//console.log("data.obj", data.obj);
 			
 			if(data.obj.isans == 1) {
+				createjs.Sound.play("bonus", !0);
 				data.obj.addChild(data.obj.btnTrue);	
 				qp_score += 150;
 				qp_scoreBoard.setScoreNum();
@@ -418,11 +449,11 @@ var C_ScoreBoard = function (img) {
 	
 	//var c = new createjs.Bitmap(queue.getResult(img));
 	//this.addChild(c);
-	var word = new createjs.Text("Score:", "bold 60px Arial");
-    this.addChild(word);
-	this.stepboardlabel = new createjs.Text(qp_score.toString(), "50px Arial");
+	//var word = new createjs.Text("Score:", "bold 60px Arial");
+    //this.addChild(word);
+	this.stepboardlabel = new createjs.Text(qp_score.toString(), "45px Arial");
 	//this.stepboardlabel.textBaseline = "middle";
-	this.stepboardlabel.x = word.getBounds().width + 10;
+	this.stepboardlabel.x = 10;//word.getBounds().width + 10;
 	this.stepboardlabel.y = 10;
 	this.addChild(this.stepboardlabel);
 };

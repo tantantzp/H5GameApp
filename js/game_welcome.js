@@ -36,16 +36,16 @@ var WelComeScene = function (gameFunc, stage) {
 	tcontainer.addChild(ttitle);          //add background img
 	
 	
-	var tbgwhite;
-    tbgwhite = new createjs.Bitmap(qp_resourceList.getResult("bgwhite"));
-	tbgwhite.x = 0;
-	tbgwhite.y = 300 ;
-	tbgwhite.scaleX = (ScreenWidth / tbgwhite.image.width);
-	tbgwhite.scaleY = (ScreenHeight / tbgwhite.image.height);
-	tbgwhite.alpha = 0;
-	createjs.Tween.get(tbgwhite).to({alpha:1, y:0}, 1000);
-	tcontainer.addChild(tbgwhite);          //add background img
-	
+//	var tbgwhite;
+//  tbgwhite = new createjs.Bitmap(qp_resourceList.getResult("bgwhite"));
+//	tbgwhite.x = 0;
+//	tbgwhite.y = 300 ;
+//	tbgwhite.scaleX = (ScreenWidth / tbgwhite.image.width);
+//	tbgwhite.scaleY = (ScreenHeight / tbgwhite.image.height);
+//	tbgwhite.alpha = 0;
+//	createjs.Tween.get(tbgwhite).to({alpha:1, y:0}, 1000);
+//	tcontainer.addChild(tbgwhite);          //add background img
+//	
 	
     var btn1;
 	btn1 = new createjs.Bitmap(queue.getResult("playbtn"));
