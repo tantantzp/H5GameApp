@@ -222,12 +222,13 @@ var C_imgBlock = function (locationX, locationY) {
 	this.initialize();	
 	this.clicked = 0;
 	this.visible = 1;
+
 	this.img = new createjs.Bitmap(qp_resourceList.getResult("block"));
 	this.img.on("mousedown", function (evt, data) {
 		if(data.obj.clicked == 0) {
 			createjs.Sound.play("flip", !0);
 			console.log("sound flip:", "flip");
-			createjs.Tween.get(data.obj.img).to({alpha:0}, 100);
+			createjs.Tween.get(data.obj).to({rotation:1080, scaleX: 0, scaleY: 0}, 150);
 			//this.scaleY = this.scaleX = 0;
 			//qp_stepBoard.setStepNum_IncreaseOneStep();
 			qp_scoreBoard.decreaseScore(10);
@@ -291,8 +292,10 @@ C_imgBlockCollection.prototype.addBlocks = function() {
                     } );   //animation
 			tblock.scaleX = this.blocksizex / tblock.getBounds().width;
 			tblock.scaleY= this.blocksizey / tblock.getBounds().height;
-			tblock.x = this.blocksizex * x ;
-			tblock.y = this.blocksizey * y ;
+		    tblock.regX = tblock.getBounds().width / 2;
+            tblock.regY = tblock.getBounds().height / 2;   
+			tblock.x = this.blocksizex * (x + 0.5);
+			tblock.y = this.blocksizey * (y + 0.5) ;
 			//qp_mapontainer.addChild(timg);
 			this.addChild(tblock);
 			
