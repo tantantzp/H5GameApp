@@ -82,16 +82,52 @@ function showFPS() {
 		a.text = "FPS:" + createjs.Ticker.getMeasuredFPS(10).toFixed(2);
 	});
 }
-function ProgressBar(a, b) {
+function ProgressBar(barWidth, barHeight) {
 	this.initialize();
-	this.w = a;
-	this.h = b;
+	this.barWidth = barWidth;
+	this.barHeight = barHeight;
+	this.w = W;
+	this.h = H;
+	this.background1 = new createjs.Bitmap("img/jiujingBg1.jpg");
+	//console.log("background1", this.background1.image);
+	this.background1.alpha = 0.5;
+	this.background1.x = this.background1.y = 0;
+	this.background1.scaleX = W / 567; 
+	this.background1.scaleY = H /  1008;//this.background1.image.height;
+    createjs.Tween.get(this.background1).to({alpha:1}, 200);
+  
+  
+  	this.background2 = new createjs.Bitmap("img/jiujingBg2.jpg");
+	this.background2.alpha = 0;
+	this.background2.x = this.background2.y = 0;
+	this.background2.scaleX = W / 567;
+	this.background2.scaleY = H / 1008 ;//this.background2.image.height;
+  
+    this.background3 = new createjs.Bitmap("img/jiujingBg3.jpg");
+	this.background3.alpha = 0;
+	this.background3.x = this.background3.y = 0;
+	this.background3.scaleX = W / 567;
+	this.background3.scaleY = H / 1008 ;//this.background2.image.height;
+   
+    this.flag2 = true;
+    this.flag3 = true;
+	this.addChild(this.background1);
+	this.addChild(this.background2);
+	this.addChild(this.background3);
+	//this.background2 = new createjs.Bitmap("img/jiujingBg2.jpg");
+	
+	this.progressW = (W - this.barWidth) / 2; 
+	this.progressH = 6 * H / 7;
+	
 	this.progress = new createjs.Shape;
-	this.progress.graphics.s("black").r(0, 0, a, b).es();
-	this.progress.graphics.lf(["red", "yellow", "blue"], [0, 0.5, 1], 0, 0, a, 0);
-	this.progressText = new createjs.Text("\u8d44\u6e90\u52a0\u8f7d\u4e2d..", "bold 24px Arial", "black");
-	this.progressText.x = a / 2;
-	this.progressText.y = b / 2;
+	//this.progress.graphics.s("black").r(this.progressW , this.progressH, this.barWidth, this.barHeight).es();
+	this.progress.graphics.lf(["gray", "white"], [0, 0.5], this.progressW , this.progressH,  this.barWidth, this.barHeight);
+	//this.progress.x = 0;
+	this.progress.alpha = 0.4;
+	
+	this.progressText = new createjs.Text("\u8d44\u6e90\u52a0\u8f7d\u4e2d..", "bold 35px Arial", "black");
+	this.progressText.x = W / 2;
+	this.progressText.y = this.progressH + 30
 	this.progressText.textAlign = "center";
 	this.progressText.textBaseline = "middle";
 	this.addChild(this.progress);
@@ -99,10 +135,23 @@ function ProgressBar(a, b) {
 }
 ProgressBar.prototype = new createjs.Container;
 ProgressBar.prototype.completeCallback = function (a) {
-	this.parent.removeChild(this);
+	//this.parent.removeChild(this);
 };
 ProgressBar.prototype.progressCallback = function (a) {
-	this.progress.graphics.r(0, 0, this.w * a.progress, this.h);
+	var tmp = parseInt(100 * a.progress);
+	if(tmp >= 33 && tmp < 66) {
+		if(this.flag2){
+			createjs.Tween.get(this.background2).to({alpha:1}, 200);
+		    this.flag2 = false;
+		}
+	}
+	if(tmp >= 66) {
+		if(this.flag3){
+			createjs.Tween.get(this.background3).to({alpha:1}, 200);
+		    this.flag3 = false;
+		}
+	}
+	this.progress.graphics.r(this.progressW , this.progressH,  this.barWidth * a.progress, this.barHeight);
 	this.progressText.text = "\u5df2\u52a0\u8f7d: " + parseInt(100 * a.progress) + "%";
 };
 ProgressBar.prototype.forQueue = function (a) {

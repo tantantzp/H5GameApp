@@ -17,17 +17,14 @@ var qp_answerNum;// = 4;
 
 
 function resourceLoadComplete(a) {
-	new WelComeScene(qp_gameFunc, stage);
+	//new WelComeScene(qp_gameFunc, stage);
 };
 
 function loadResource() {
 	SCREEN_SHOW_ALL = !0;
 	//qp_resourceList = new createjs.LoadQueue;
-	var loadProgress = new ProgressBar(0.8 * W, 40);
-	loadProgress.regX = loadProgress.w / 2;
-	loadProgress.regY = loadProgress.h / 2;
-	loadProgress.x = W / 2;
-	loadProgress.y = H / 2;
+	var loadProgress = new ProgressBar(0.65 * W, 60);
+
 	stage.addChild(loadProgress);
 	$.getJSON("game.json", function(data) {
 		qp_gameJsonArray = data;	
@@ -348,6 +345,7 @@ var C_answerItem = function( text, isanswer, ansCollection) {
 		if(data.obj2.haveChosed == 0 &&data.obj.pressed == 0) {
 			this.scaleY = this.scaleX = 0.6;
 			//console.log("data.obj", data.obj);
+			
 			
 			if(data.obj.isans == 1) {
 				createjs.Sound.play("bonus", !0);
