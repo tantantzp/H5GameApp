@@ -135,7 +135,7 @@ function ProgressBar(barWidth, barHeight) {
 }
 ProgressBar.prototype = new createjs.Container;
 ProgressBar.prototype.completeCallback = function (a) {
-	//this.parent.removeChild(this);
+	this.parent.removeChild(this);
 };
 ProgressBar.prototype.progressCallback = function (a) {
 	var tmp = parseInt(100 * a.progress);

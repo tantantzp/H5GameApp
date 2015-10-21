@@ -17,7 +17,7 @@ var qp_answerNum;// = 4;
 
 
 function resourceLoadComplete(a) {
-	//new WelComeScene(qp_gameFunc, stage);
+	new WelComeScene(qp_gameFunc, stage);
 };
 
 function loadResource() {
