@@ -1,7 +1,7 @@
 var  ScreenWidth = 640, ScreenHeight = 960;
 var	qp_stepBoard, qp_scoreBoard, qp_mapContainer, 
 	qp_answerCollection, qp_mapClass, qp_imgBlockCollection,  qp_nextbtn, qp_topbtn;
-var  qp_curIndex;
+var  qp_curIndex, qp_textImg;;
 
 //game json information 
 //var  qp_gameJsonText = '{"gameInfo":[' +
@@ -23,10 +23,13 @@ function resourceLoadComplete(a) {
 function loadResource() {
 	SCREEN_SHOW_ALL = !0;
 	//qp_resourceList = new createjs.LoadQueue;
-	var loadProgress = new ProgressBar(0.65 * W, 60);
-
+	var loadProgress = new ProgressBar(0.8 * W, 50);
+	loadProgress.regX = loadProgress.w / 2;
+	loadProgress.regY = loadProgress.h / 2;
+	loadProgress.x = W / 2;
+	loadProgress.y = H / 2;
 	stage.addChild(loadProgress);
-	$.getJSON("game.json", function(data) {
+	$.getJSON("game.txt", function(data) {	//whquan
 		qp_gameJsonArray = data;	
 		qp_answerNum = qp_gameJsonArray.gameInfo.length;
 		//console.log("game number:", qp_answerNum);
@@ -55,6 +58,16 @@ function loadResource() {
 	       {src:"game/jiujing8.jpg", id:"jiujing8"},
 	       {src:"game/jiujing9.jpg", id:"jiujing9"},
 	       {src:"game/jiujing10.jpg", id:"jiujing10"},
+	       {src:"game/gametext1.png", id:"gametext1"},
+	       {src:"game/gametext2.png", id:"gametext2"},
+	       {src:"game/gametext3.png", id:"gametext3"},
+	       {src:"game/gametext4.png", id:"gametext4"},
+	       {src:"game/gametext5.png", id:"gametext5"},
+	       {src:"game/gametext6.png", id:"gametext6"},
+	       {src:"game/gametext7.png", id:"gametext7"},
+	       {src:"game/gametext8.png", id:"gametext8"},
+	       {src:"game/gametext9.png", id:"gametext9"},
+	       {src:"game/gametext10.png", id:"gametext10"},
 	       {src:"thu1.jpg", id:"thu1"},
 	       {src:"thu2.jpg", id:"thu2"},
 	       {src:"btn.png", id:"btn"},
@@ -78,6 +91,19 @@ function loadResource() {
 };
 
 
+//whquan
+function submitScore(score){
+	$.post("score.php", {"score":score}, function(data){
+		
+		//alert(data);
+		var resJson = eval("(" + data + ")");
+		
+		qp_numPlay = resJson.numPlay;
+		qp_bestScore = resJson.bestScore;
+		qp_numplayText.text = qp_numPlay.toString();
+		//qp_bestScoreText.text = qp_bestScore.toString();
+	});
+}
 
 function qp_gameFunc(index) {
 	this.index = index;
@@ -106,8 +132,7 @@ function qp_gameFunc(index) {
 //	tbggray.scaleY = (ScreenHeight / tbggray.image.height);
 //	qp_mapContainer.addChild(tbggray);          //add background img
 //	
-	
-	
+
 	//read game infomation from json obj
 	var thuImg = qp_gameJsonArray.gameInfo[index].img;
 	var ansTextArray = [];
@@ -152,6 +177,18 @@ function qp_gameFunc(index) {
 //	qp_stepBoard.scaleX = (100 / qp_stepBoard.getBounds().width);
 //	qp_stepBoard.scaleY =  (50 / qp_stepBoard.getBounds().height);
 //	qp_mapContainer.addChild(qp_stepBoard);
+
+	var gameText = qp_gameJsonArray.gameInfo[index].text;
+	
+	qp_textImg = new createjs.Bitmap(qp_resourceList.getResult(gameText));
+	qp_textImg.x = 0;
+	qp_textImg.y = 30 ;
+	qp_textImg.alpha = 0;
+	qp_textImg.scaleX = (ScreenWidth / qp_textImg.image.width) ;
+	qp_textImg.scaleY = (ScreenHeight / qp_textImg.image.height);
+	createjs.Tween.get(qp_textImg).wait(1000).to({alpha:1, y:0}, 500);
+	//qp_mapContainer.addChild(qp_textImg);          //add background img
+
 
 	
 	qp_scoreBoard = new C_ScoreBoard("curscore");    //show the used step number
@@ -212,7 +249,9 @@ function qp_gameFunc(index) {
 		qp_answerCollection.removeAllChildren();
 		qp_mapContainer.removeAllChildren();
 		stage.removeAllChildren();
-				
+		//whquan
+		submitScore(qp_score);	
+	
         GameoverScene();
 	},null, false, {obj: this});
 	
@@ -222,13 +261,12 @@ var C_imgBlock = function (locationX, locationY) {
 	this.initialize();	
 	this.clicked = 0;
 	this.visible = 1;
-
 	this.img = new createjs.Bitmap(qp_resourceList.getResult("block"));
 	this.img.on("mousedown", function (evt, data) {
 		if(data.obj.clicked == 0) {
 			createjs.Sound.play("flip", !0);
 			console.log("sound flip:", "flip");
-			createjs.Tween.get(data.obj).to({rotation:1080, scaleX: 0, scaleY: 0}, 150);
+			createjs.Tween.get(data.obj.img).to({alpha:0}, 100);
 			//this.scaleY = this.scaleX = 0;
 			//qp_stepBoard.setStepNum_IncreaseOneStep();
 			qp_scoreBoard.decreaseScore(10);
@@ -292,10 +330,8 @@ C_imgBlockCollection.prototype.addBlocks = function() {
                     } );   //animation
 			tblock.scaleX = this.blocksizex / tblock.getBounds().width;
 			tblock.scaleY= this.blocksizey / tblock.getBounds().height;
-		    tblock.regX = tblock.getBounds().width / 2;
-            tblock.regY = tblock.getBounds().height / 2;   
-			tblock.x = this.blocksizex * (x + 0.5);
-			tblock.y = this.blocksizey * (y + 0.5) ;
+			tblock.x = this.blocksizex * x ;
+			tblock.y = this.blocksizey * y ;
 			//qp_mapontainer.addChild(timg);
 			this.addChild(tblock);
 			
@@ -317,8 +353,8 @@ var C_answerItem = function( text, isanswer, ansCollection) {
 	this.btn = new createjs.Bitmap(qp_resourceList.getResult("btn"));
 	this.btnTrue = new createjs.Bitmap(qp_resourceList.getResult("btnTrue"));
 	this.btnFalse = new createjs.Bitmap(qp_resourceList.getResult("btnFalse"));
-	this.ansText = new createjs.Text(text , "bold 35px Arial");
-	
+	this.ansText = new createjs.Text(text , "bold 23px 幼圆");
+	this.ansText.alpha = 0.7;
 	this.isans = isanswer; //1 means this is the rigth answer
 	this.pressed = 0; //1 means is pressed
 	
@@ -331,15 +367,17 @@ var C_answerItem = function( text, isanswer, ansCollection) {
 	//this.btnTrue.alpha = 0;
 	//this.btnFalse.appha = 0;
 	
-	this.ansText.x = this.btn.getBounds().width - 20;
+	this.ansText.x = 15;//this.btn.getBounds().width - 20;
 	this.ansText.y = 10;
+	
+	this.addChild(this.btn);
 	this.addChild(this.ansText);	
-    this.addChild(this.btn);
+
     
 	this.btn.on("mousedown", function (evt, data) {
 		if(data.obj2.haveChosed == 0 && data.obj.pressed == 0) {
 			IS_TOUCH && this.nativeEvent instanceof MouseEvent || 
-			(this.scaleY = this.scaleX = 0.5);			
+			(this.scaleY = this.scaleX = 0.58);			
 		}
 		
 
@@ -348,7 +386,6 @@ var C_answerItem = function( text, isanswer, ansCollection) {
 		if(data.obj2.haveChosed == 0 &&data.obj.pressed == 0) {
 			this.scaleY = this.scaleX = 0.6;
 			//console.log("data.obj", data.obj);
-			
 			
 			if(data.obj.isans == 1) {
 				createjs.Sound.play("bonus", !0);
@@ -365,6 +402,7 @@ var C_answerItem = function( text, isanswer, ansCollection) {
 				qp_imgBlockCollection.removeAllBlocks();
 				data.obj2.showAnswer();
 			}
+			qp_mapContainer.addChild(qp_textImg);  
 			
 			if(qp_curIndex + 1 < qp_answerNum) {
 				qp_mapContainer.addChild(qp_nextbtn);	
