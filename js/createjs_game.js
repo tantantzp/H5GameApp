@@ -1,7 +1,7 @@
 
 var stage, W = 640, H = 960, IS_TOUCH, SCREEN_SHOW_ALL = !1, 
     g_androidsoundtimer = null, g_followAnim = null;
-var qp_score = 0, qp_best = 500, qp_step = 0;
+var qp_score = 0, qp_best = 500, qp_step = 0, qp_score1 = 0;
 
 var RES_DIR = "";
 var USE_NATIVE_SOUND = !1;
@@ -90,27 +90,28 @@ function ProgressBar(barWidth, barHeight) {
 	this.h = H;
 	this.background1 = new createjs.Bitmap("img/jiujingBg1.jpg");
 	//console.log("background1", this.background1.image);
-	this.background1.alpha = 0.5;
+	this.background1.alpha =1;
 	this.background1.x = this.background1.y = 0;
-	this.background1.scaleX = W / 567; 
-	this.background1.scaleY = H /  1008;//this.background1.image.height;
+	this.background1.scaleX = W / 640; 
+	this.background1.scaleY = H /  960;//this.background1.image.height;
     createjs.Tween.get(this.background1).to({alpha:1}, 200);
   
   
   	this.background2 = new createjs.Bitmap("img/jiujingBg2.jpg");
 	this.background2.alpha = 0;
 	this.background2.x = this.background2.y = 0;
-	this.background2.scaleX = W / 567;
-	this.background2.scaleY = H / 1008 ;//this.background2.image.height;
+	this.background2.scaleX = W / 640;
+	this.background2.scaleY = H / 960 ;//this.background2.image.height;
   
     this.background3 = new createjs.Bitmap("img/jiujingBg3.jpg");
 	this.background3.alpha = 0;
 	this.background3.x = this.background3.y = 0;
-	this.background3.scaleX = W / 567;
-	this.background3.scaleY = H / 1008 ;//this.background2.image.height;
+	this.background3.scaleX = W / 640;
+	this.background3.scaleY = H / 960 ;//this.background2.image.height;
    
     this.flag2 = true;
     this.flag3 = true;
+    
 	this.addChild(this.background1);
 	this.addChild(this.background2);
 	this.addChild(this.background3);
@@ -123,11 +124,11 @@ function ProgressBar(barWidth, barHeight) {
 	//this.progress.graphics.s("black").r(this.progressW , this.progressH, this.barWidth, this.barHeight).es();
 	this.progress.graphics.lf(["gray", "white"], [0, 0.5], this.progressW , this.progressH,  this.barWidth, this.barHeight);
 	//this.progress.x = 0;
-	this.progress.alpha = 0.4;
+	this.progress.alpha = 0.6;
 	
-	this.progressText = new createjs.Text("\u8d44\u6e90\u52a0\u8f7d\u4e2d..", "bold 35px Arial", "black");
+	this.progressText = new createjs.Text("\u8d44\u6e90\u52a0\u8f7d\u4e2d..", "bold 30px Arial", "black");
 	this.progressText.x = W / 2;
-	this.progressText.y = this.progressH + 30
+	this.progressText.y = this.progressH + 18;
 	this.progressText.textAlign = "center";
 	this.progressText.textBaseline = "middle";
 	this.addChild(this.progress);
@@ -141,13 +142,13 @@ ProgressBar.prototype.progressCallback = function (a) {
 	var tmp = parseInt(100 * a.progress);
 	if(tmp >= 33 && tmp < 66) {
 		if(this.flag2){
-			createjs.Tween.get(this.background2).to({alpha:1}, 200);
+			createjs.Tween.get(this.background2).to({alpha:1}, 10);
 		    this.flag2 = false;
 		}
 	}
 	if(tmp >= 66) {
 		if(this.flag3){
-			createjs.Tween.get(this.background3).to({alpha:1}, 200);
+			createjs.Tween.get(this.background3).to({alpha:1}, 10);
 		    this.flag3 = false;
 		}
 	}
@@ -165,4 +166,3 @@ ProgressBar.prototype.forQueue = function (a) {
 		this.errorList.push(a.item.src);
 	}, this);
 };
-

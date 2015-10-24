@@ -1,0 +1,114 @@
+{"gameInfo":
+[ 
+    {
+        "img":"jiujing1", 
+        "text":"gametext1", 
+        "ansArray":
+        [
+            {"text": "小木板   ", "isans": 0}, 
+            {"text": "九号楼   ", "isans": 0}, 
+            {"text": "墙  砖   ", "isans": 0},
+           {"text":  "小黑板   ", "isans": 1}
+        ] 
+    },
+    {
+    	"img":"jiujing2", 
+        "text":"gametext2", 
+    	"ansArray":
+    	[
+    	    {"text": "电磁壶   ", "isans": 0}, 
+    	    {"text": "铜  牌   ", "isans": 1}, 
+    	    {"text": "大  门   ", "isans": 0},
+    	    {"text": "墙  砖   ", "isans": 0}
+        ] 
+    },
+    {
+    	"img":"jiujing3", 
+    	"text":"gametext3", 
+    	"ansArray":
+    	[
+    	    {"text": "小木板   ", "isans": 0}, 
+    	    {"text": "电磁壶   ", "isans": 1}, 
+    	    {"text": "墙  砖   ", "isans": 0},
+    	    {"text": "电  线   ", "isans": 0}
+    	] 
+    },
+    {
+    	"img":"jiujing4", 
+    	"text":"gametext4", 
+    	"ansArray":
+    	[
+    	    {"text": "楼顶     ", "isans": 0}, 
+    	    {"text": "电磁壶   ", "isans": 0}, 
+    	    {"text": "通风口   ", "isans": 1},
+    	    {"text": "墙砖     ", "isans": 0}
+    	] 
+    },
+    {
+        "img":"jiujing5", 
+        "text":"gametext5", 
+        "ansArray":
+        [
+            {"text": "15级台阶  ", "isans": 1}, 
+            {"text": "11级台阶  ", "isans": 0}, 
+            {"text": "17级台阶  ", "isans": 0},
+            {"text": "12级台阶  ", "isans": 0}
+        ] 
+    },
+    {
+        "img":"jiujing6", 
+        "text":"gametext6", 
+        "ansArray":
+        [
+            {"text": "宿 舍 门  ", "isans": 0}, 
+            {"text": "玻 璃 窗  ", "isans": 0}, 
+            {"text": "储 物 间  ", "isans": 0},
+            {"text": "门窗锁扣  ", "isans": 1}
+        ] 
+    },
+    {
+        "img":"jiujing7", 
+        "text":"gametext7", 
+        "ansArray":
+        [
+            {"text": "宿 舍 门  ", "isans": 0}, 
+            {"text": "玻 璃 窗  ", "isans": 0}, 
+            {"text": "储 物 间  ", "isans": 1},
+            {"text": "九号楼东门", "isans": 0}
+        ] 
+    },
+    {
+        "img":"jiujing8", 
+        "text":"gametext8", 
+        "ansArray":
+        [
+            {"text": "114宿舍  ", "isans": 0}, 
+            {"text": "214宿舍  ", "isans": 0}, 
+            {"text": "425宿舍  ", "isans": 1},
+            {"text": "311宿舍  ", "isans": 0}
+        ] 
+    },
+    {
+        "img":"jiujing9", 
+        "text":"gametext9", 
+        "ansArray":
+        [
+            {"text": " 10片 ", "isans": 0}, 
+            {"text": " 9片  ", "isans": 1}, 
+            {"text": " 8片  ", "isans": 0},
+            {"text": " 7片  ", "isans": 0}
+        ] 
+    },
+    {
+        "img":"jiujing10", 
+        "text":"gametext10", 
+        "ansArray":
+        [
+            {"text": "九号楼东侧", "isans": 0}, 
+            {"text": "九号楼西侧", "isans": 1}, 
+            {"text": "九号楼南侧", "isans": 0},
+            {"text": "九号楼北侧", "isans": 0}
+        ] 
+    }
+]
+}

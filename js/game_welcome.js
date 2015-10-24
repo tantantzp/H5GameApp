@@ -27,12 +27,12 @@ var WelComeScene = function (gameFunc, stage) {
 		
 	var ttitle;
     ttitle = new createjs.Bitmap(qp_resourceList.getResult("title"));
-	ttitle.x = 300;
+	ttitle.x = 0;
 	ttitle.y = 0 ;
 	ttitle.scaleX = (ScreenWidth / tbgimg.image.width);
 	ttitle.scaleY = (ScreenHeight / tbgimg.image.height);
 	ttitle.alpha = 0;
-	createjs.Tween.get(ttitle).to({alpha:1, x:0}, 1000);
+	createjs.Tween.get(ttitle).to({alpha:1}, 1000);
 	tcontainer.addChild(ttitle);          //add background img
 	
 	
@@ -52,9 +52,9 @@ var WelComeScene = function (gameFunc, stage) {
 	btn1.setAnchorPoint(0.5, 0.5);
 
 	btn1.x = 305;
-	btn1.y = 700;
+	btn1.y = 810;
 	btn1.alpha = 0;
-	createjs.Tween.get(btn1).wait(500).to({alpha:1}, 1000);	
+	createjs.Tween.get(btn1).wait(1000).to({alpha:1}, 1000);	
 	tcontainer.addChild(btn1);
 	btn1.on("mousedown", function () {
 		IS_TOUCH && this.nativeEvent instanceof MouseEvent ||
@@ -72,9 +72,9 @@ var WelComeScene = function (gameFunc, stage) {
 	btn2 = new createjs.Bitmap(queue.getResult("topbtn"));
 	btn2.setAnchorPoint(0.5, 0.5);
 	btn2.x = 305;
-	btn2.y = 850;
+	btn2.y = 900;
 	btn2.alpha = 0;
-	createjs.Tween.get(btn2).wait(500).to({alpha:1}, 1000);	
+	createjs.Tween.get(btn2).wait(1000).to({alpha:1}, 1000);	
 	tcontainer.addChild(btn2);
 	btn2.on("mousedown", function () {
 		IS_TOUCH && this.nativeEvent instanceof MouseEvent || 
@@ -82,8 +82,9 @@ var WelComeScene = function (gameFunc, stage) {
 	});
 	btn2.on("pressup", function () {
 		this.scaleY = this.scaleX = 1;
-	    stage.removeAllChildren();
-				
+	    stage.removeAllChildren();		
+		submitScore(qp_score-2);
+		qp_score1 = qp_score1 + 13;
         GameoverScene();
 	});
 };
