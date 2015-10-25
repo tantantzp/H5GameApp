@@ -60,8 +60,8 @@ var GameoverScene = function () {
 	overContainer.addChild(a);
 	
 	var title = "一级居士";
-	if(qp_score >= 600) title = "楼    长";
-	if(qp_score >= 500 && qp_score < 600) title = "一级居士";
+	if(qp_score >= 800) title = "楼    长";
+	if(qp_score >= 500 && qp_score < 700) title = "一级居士";
 	if(qp_score >= 400 && qp_score < 500) title = "二级居士";
 	if(qp_score >= 300 && qp_score < 400) title = "三级居士";
 	if(qp_score < 300) title = "过   客";

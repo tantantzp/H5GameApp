@@ -1,11 +1,11 @@
 <?php
 	//GET Param: code, state
 	error_reporting(0);
-	
+	/*
 	if($_COOKIE['openid'] != ''){
 		goto END;
 	}
-
+	*/
 	define('ERR_BASE', 100);	//maybe useful.	errcode < 100, our own defined error
 	$ERR_NO_CODE = array('errcode' => 1, 'errmsg' => 'No code');
 	$ERR_NO_STATE = array('errcode' => 2, 'errmsg' => 'No state');
@@ -100,9 +100,8 @@
 			return false;
 		}
 		//insert into db
-		$query = "insert into player_info (openid, headimgurl, nickname) values ('".$jsonResult['openid']."', '".$jsonResult['headimgurl']."', '".$jsonResult['nickname']."')";
-		$result = mysqli_query($conn, $query);
-		
+		$query = "insert into player_info (openid, headimgurl, nickname, sex, province, city, country, privilege, unionid) values ('".$jsonResult['openid']."', '".$jsonResult['headimgurl']."', '".$jsonResult['nickname']."', '".$jsonResult['sex']."', '".$jsonResult['province']."', '".$jsonResult['city']."', '".$jsonResult['country']."', '".$jsonResult['privilege']."', '".$jsonResult['unionid']."')";
+		$result = mysqli_query($conn, $query);		
 		return true;
 	}
 	

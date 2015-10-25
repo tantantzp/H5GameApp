@@ -1,7 +1,7 @@
 var  ScreenWidth = 640, ScreenHeight = 960;
 var	qp_stepBoard, qp_scoreBoard, qp_mapContainer, 
 	qp_answerCollection, qp_mapClass, qp_imgBlockCollection,  qp_nextbtn, qp_topbtn;
-var  qp_curIndex, qp_textImg;;
+var  qp_curIndex, qp_textImg, qp_addScore;
 
 //game json information 
 //var  qp_gameJsonText = '{"gameInfo":[' +
@@ -18,6 +18,71 @@ var qp_answerNum;// = 4;
 
 function resourceLoadComplete(a) {
 	new WelComeScene(qp_gameFunc, stage);
+};
+
+function loadGameResource() {
+	SCREEN_SHOW_ALL = !0;
+	//qp_resourceList = new createjs.LoadQueue;
+	var loadProgress = new ProgressBar(0.8 * W, 50);
+	loadProgress.regX = loadProgress.w / 2;
+	loadProgress.regY = loadProgress.h / 2;
+	loadProgress.x = W / 2;
+	loadProgress.y = H / 2;
+	stage.addChild(loadProgress);
+	$.getJSON("game.txt", function(data) {	//whquan
+		qp_gameJsonArray = data;	
+		qp_answerNum = qp_gameJsonArray.gameInfo.length;
+		//console.log("game number:", qp_answerNum);
+	});
+	
+	
+	queue = qp_resourceList = new createjs.LoadQueue(!1);
+	
+	queue.on("complete", qp_gameFunc(0), null, !0);
+	LoadWelComeSceneRes();
+	LoadGameoverSceneRes();
+	queue.loadManifest({path:RES_DIR + "img/", 
+	       manifest:[
+
+	       {src:"game/jiujing1.jpg", id:"jiujing1"},
+	       {src:"game/jiujing2.jpg", id:"jiujing2"},
+	       {src:"game/jiujing3.jpg", id:"jiujing3"},
+	       {src:"game/jiujing4.jpg", id:"jiujing4"},
+	       {src:"game/jiujing5.jpg", id:"jiujing5"},
+	       {src:"game/jiujing6.jpg", id:"jiujing6"},
+	       {src:"game/jiujing7.jpg", id:"jiujing7"},
+	       {src:"game/jiujing8.jpg", id:"jiujing8"},
+	       {src:"game/jiujing9.jpg", id:"jiujing9"},
+	       {src:"game/jiujing10.jpg", id:"jiujing10"},
+	       {src:"game/gametext1.png", id:"gametext1"},
+	       {src:"game/gametext2.png", id:"gametext2"},
+	       {src:"game/gametext3.png", id:"gametext3"},
+	       {src:"game/gametext4.png", id:"gametext4"},
+	       {src:"game/gametext5.png", id:"gametext5"},
+	       {src:"game/gametext6.png", id:"gametext6"},
+	       {src:"game/gametext7.png", id:"gametext7"},
+	       {src:"game/gametext8.png", id:"gametext8"},
+	       {src:"game/gametext9.png", id:"gametext9"},
+	       {src:"game/gametext10.png", id:"gametext10"},
+
+	       {src:"btn.png", id:"btn"},
+	       {src:"btnTrue.png", id:"btnTrue"},
+	       {src:"btnFalse.png", id:"btnFalse"},
+	       {src:"nextbtn.png", id:"nextbtn"}]}, !1);
+	USE_NATIVE_SOUND || (IS_NATIVE_ANDROID ? 
+		(createjs.Sound.registMySound("flip", 0), 
+		 createjs.Sound.registMySound("bonus", 2), 
+		queue.loadFile({id:"sound", src:RES_DIR + "audio/all.mp3"})) 
+		: (createjs.Sound.alternateExtensions = ["ogg"],
+		   queue.installPlugin(createjs.Sound), 
+		   queue.loadManifest({path:RES_DIR + "audio/",
+		        manifest:[
+		        {src:"flip.mp3", id:"flip"} ,
+		        {src:"bonus.mp3", id:"bonus"}
+		        ]}, !1))
+		   );
+	loadProgress.forQueue(queue);
+	queue.load();
 };
 
 function loadResource() {
@@ -90,11 +155,10 @@ function loadResource() {
 	queue.load();
 };
 
-
 //whquan
 function submitScore(score){
 	$.post("score.php", {"score":score}, function(data){
-		
+		//document.title = "999999";
 		//alert(data);
 		var resJson = eval("(" + data + ")");
 		
@@ -112,7 +176,7 @@ function qp_gameFunc(index) {
 	
 	
 	qp_mapContainer = new createjs.Container;
-	stage.addChild(qp_mapContainer);	
+	stage.addChild(qp_mapContainer);
 	
 	//add  backgroud
 	var tbgmap;
@@ -186,10 +250,11 @@ function qp_gameFunc(index) {
 	qp_textImg.alpha = 0;
 	qp_textImg.scaleX = (ScreenWidth / qp_textImg.image.width) ;
 	qp_textImg.scaleY = (ScreenHeight / qp_textImg.image.height);
-	createjs.Tween.get(qp_textImg).wait(1000).to({alpha:1, y:0}, 500);
-	//qp_mapContainer.addChild(qp_textImg);          //add background img
+	createjs.Tween.get(qp_textImg).wait(2500).to({alpha:1, y:0}, 1000);
+	
 
 
+	qp_step = 0;
 	
 	qp_scoreBoard = new C_ScoreBoard("curscore");    //show the used step number
 	qp_scoreBoard.x = 490
@@ -197,6 +262,9 @@ function qp_gameFunc(index) {
 	//qp_scoreBoard.scaleX = (30 / qp_scoreBoard.getBounds().width);
 	//qp_scoreBoard.scaleY =  (40 / qp_scoreBoard.getBounds().height);
 	qp_mapContainer.addChild(qp_scoreBoard);	
+	
+	
+
 	
 	
 	//var qp_nextbtn;
@@ -207,7 +275,7 @@ function qp_gameFunc(index) {
 	qp_nextbtn.y = 920;
 	
 	qp_nextbtn.alpha = 0;
-	createjs.Tween.get(qp_nextbtn).to({alpha:1}, 1000)
+	createjs.Tween.get(qp_nextbtn).to({alpha:1}, 1500)
 	//qp_mapContainer.addChild(qp_nextbtn);
 	qp_nextbtn.on("mousedown", function () {
 		IS_TOUCH && this.nativeEvent instanceof MouseEvent || 
@@ -266,10 +334,11 @@ var C_imgBlock = function (locationX, locationY) {
 		if(data.obj.clicked == 0) {
 			createjs.Sound.play("flip", !0);
 			console.log("sound flip:", "flip");
-			createjs.Tween.get(data.obj.img).to({alpha:0}, 100);
+			createjs.Tween.get(data.obj).to({alpha:0, scaleX: 0, scaleY: 0}, 200);
 			//this.scaleY = this.scaleX = 0;
 			//qp_stepBoard.setStepNum_IncreaseOneStep();
-			qp_scoreBoard.decreaseScore(10);
+			qp_step = qp_step + 1;
+			//qp_scoreBoard.decreaseScore(10);
 			data.obj.clicked = 1;	
 		}
 	}, null, false, {obj: this});	
@@ -330,8 +399,12 @@ C_imgBlockCollection.prototype.addBlocks = function() {
                     } );   //animation
 			tblock.scaleX = this.blocksizex / tblock.getBounds().width;
 			tblock.scaleY= this.blocksizey / tblock.getBounds().height;
-			tblock.x = this.blocksizex * x ;
-			tblock.y = this.blocksizey * y ;
+			
+		    //tblock.regX = tblock.getBounds().width / 2;
+           // tblock.regY = tblock.getBounds().height / 2;   
+			tblock.x = this.blocksizex * (x ); //+0.5
+			tblock.y = this.blocksizey * (y );  //+0.5
+
 			//qp_mapontainer.addChild(timg);
 			this.addChild(tblock);
 			
@@ -390,15 +463,28 @@ var C_answerItem = function( text, isanswer, ansCollection) {
 			if(data.obj.isans == 1) {
 				createjs.Sound.play("bonus", !0);
 				data.obj.addChild(data.obj.btnTrue);	
-				qp_score += 150;
-				qp_scoreBoard.setScoreNum();
+				//qp_score += 150;
+				//qp_scoreBoard.setScoreNum();
+				var tscore = 100;
+				if(qp_step <= 5) tscore = 100;
+				else if(qp_step > 5 && qp_step <= 10) tscore -= (qp_step - 5) * 10;
+				else if(qp_step > 10 && qp_step <= 18) tscore = tscore - 50 - (qp_step - 10) * 5;
+				else tscore = 10;
+				
+				qp_scoreBoard.increaseScore(tscore);
+				var tstr = "+ " + tscore.toString();
+			    qp_addScore = new createjs.Text(tstr, "45px Arial bold",  "#00ff00");
+				qp_addScore.x = 465;
+				qp_addScore.y = 65;
+				createjs.Tween.get(qp_addScore).wait(1200).to({alpha:0}, 600);
+				qp_mapContainer.addChild(qp_addScore);	
 				
 				qp_imgBlockCollection.removeAllBlocks();
 			}
 			else {
 				data.obj.addChild(data.obj.btnFalse);
-				qp_score -= 50;
-				qp_scoreBoard.setScoreNum();
+				//qp_score -= 50;
+				//qp_scoreBoard.setScoreNum();
 				qp_imgBlockCollection.removeAllBlocks();
 				data.obj2.showAnswer();
 			}

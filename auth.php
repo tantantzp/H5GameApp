@@ -36,13 +36,14 @@
     // 在这里调用 API
     
 		wx.onMenuShareAppMessage({
-			title: '我在酒井猜图游戏中获得'+qp_score1+'分，你也来试试吧！',
-			desc: '酒井回忆-desc-friend',
+			title: "九号楼，抹不去的青春印记",
+			desc: "在九号楼寻宝大作战中，我打败了93%的系友，看看你能得多少分，不服来挑战!",
+			//desc: document.title,
 			link: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd32fa03d5ce9cb61&redirect_uri=http%3A%2F%2Fwww.cstrunning.com%2Fbuilding_no9%2Fgame%2Findex.php&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect',
 			imgUrl: 'http://www.cstrunning.com/building_no9/game/img/bg.jpg',
 			success: function(res) {	    		
 				document.getElementById('share').style.display='none';
-				alert("qp_score="+qp_score);
+				//alert("qp_score="+qp_score);
 			},
 			cancel: function (res){
 				document.getElementById('share').style.display='none';
@@ -53,8 +54,8 @@
 		});
 		
 		wx.onMenuShareTimeline({
-			title: '我在酒井猜图游戏中获得'+qp_score+'分，你也来试试吧！',
-			desc: '酒井回忆-desc-timeline',
+			title: "在九号楼寻宝大作战中，我打败了93%的系友，看看你能得多少分，不服来挑战!",
+			desc: "九号楼，抹不去的青春印记",
 			link: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd32fa03d5ce9cb61&redirect_uri=http%3A%2F%2Fwww.cstrunning.com%2Fbuilding_no9%2Fgame%2Findex.php&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect',
 			imgUrl: 'http://www.cstrunning.com/building_no9/game/img/bg.jpg',
 			success: function(res) {

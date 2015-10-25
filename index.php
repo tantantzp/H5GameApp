@@ -11,10 +11,10 @@
 		<script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
 		<script type="text/javascript" src="js/createjs-2013.12.12.min.js"></script>
 		<script type="text/javascript" src="js/jquery.cookie.js"></script>
-		<?php	//whquan
-			require_once "auth.php"; 
-		?>		
 		<script type="text/javascript" src="js/createjs_game.js"></script>
+		<?php	//whquan
+			require_once("auth.php");
+		?>
 		<script type="text/javascript" src="js/game_welcome.js" ></script>
 		<script type="text/javascript" src="js/game_over.js" ></script>
 		<script type="text/javascript" src="js/main.js"></script>

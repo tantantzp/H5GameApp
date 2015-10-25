@@ -61,7 +61,7 @@
         "ansArray":
         [
             {"text": "宿 舍 门  ", "isans": 0}, 
-            {"text": "玻 璃 窗  ", "isans": 0}, 
+            {"text": "活 动 室  ", "isans": 0}, 
             {"text": "储 物 间  ", "isans": 0},
             {"text": "门窗锁扣  ", "isans": 1}
         ] 
@@ -93,10 +93,10 @@
         "text":"gametext9", 
         "ansArray":
         [
-            {"text": " 10片 ", "isans": 0}, 
-            {"text": " 9片  ", "isans": 1}, 
-            {"text": " 8片  ", "isans": 0},
-            {"text": " 7片  ", "isans": 0}
+            {"text": "暖 气 片","isans": 1}, 
+            {"text": "活 动 室", "isans": 0}, 
+            {"text": "储 物 间", "isans": 0},
+            {"text": "宿 舍 门", "isans": 0}
         ] 
     },
     {

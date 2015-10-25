@@ -62,9 +62,11 @@ var WelComeScene = function (gameFunc, stage) {
 	});
 	btn1.on("pressup", function () {
 		this.scaleY = this.scaleX = 1;
+		stage.removeChild(tcontainer);	
+		
 		var gameIndex = 0;
 		gameFunc(gameIndex);
-		stage.removeChild(tcontainer);
+
 		
 	});
 	
