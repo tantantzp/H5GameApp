@@ -5,8 +5,7 @@ function LoadWelComeSceneRes() {
 	      manifest:[
             {src:"playbtn.png", id:"playbtn"}, 
             {src:"topbtn.png", id:"topbtn"},
-            {src:"title.png", id:"title"},
-            {src:"bgwhite.png", id:"bgwhite"}
+            {src:"title.png", id:"title"}
 	        ]}, !1);
 }
 
@@ -29,24 +28,27 @@ var WelComeScene = function (gameFunc, stage) {
     ttitle = new createjs.Bitmap(qp_resourceList.getResult("title"));
 	ttitle.x = 0;
 	ttitle.y = 0 ;
-	ttitle.scaleX = (ScreenWidth / tbgimg.image.width);
-	ttitle.scaleY = (ScreenHeight / tbgimg.image.height);
+	ttitle.scaleX = (ScreenWidth / ttitle.image.width);
+	ttitle.scaleY = (ScreenHeight / ttitle.image.height);
 	ttitle.alpha = 0;
 	createjs.Tween.get(ttitle).to({alpha:1}, 1000);
+	
+	
+   // var pixelDolly1 = ttitle.image.closePixelate( pixelOpts )
+    //ClosePixelation( ttitle.image, options );
+	console.log("image", ttitle.image.width);
 	tcontainer.addChild(ttitle);          //add background img
 	
-	
-//	var tbgwhite;
-//  tbgwhite = new createjs.Bitmap(qp_resourceList.getResult("bgwhite"));
-//	tbgwhite.x = 0;
-//	tbgwhite.y = 300 ;
-//	tbgwhite.scaleX = (ScreenWidth / tbgwhite.image.width);
-//	tbgwhite.scaleY = (ScreenHeight / tbgwhite.image.height);
-//	tbgwhite.alpha = 0;
-//	createjs.Tween.get(tbgwhite).to({alpha:1, y:0}, 1000);
-//	tcontainer.addChild(tbgwhite);          //add background img
-//	
-	
+	/*
+	var img = qp_resourceList.getResult("title");
+	var pixelOpts = [ { resolution: 10 } ];
+	var myBlur = new BlurImg( img,  pixelOpts);
+    var canvas = document.getElementById("stage2");
+    var test = new createjs.Bitmap(canvas);
+    tcontainer.addChild(test);
+    */
+    
+   
     var btn1;
 	btn1 = new createjs.Bitmap(queue.getResult("playbtn"));
 	btn1.setAnchorPoint(0.5, 0.5);
@@ -62,11 +64,9 @@ var WelComeScene = function (gameFunc, stage) {
 	});
 	btn1.on("pressup", function () {
 		this.scaleY = this.scaleX = 1;
-		stage.removeChild(tcontainer);	
-		
 		var gameIndex = 0;
 		gameFunc(gameIndex);
-
+		stage.removeChild(tcontainer);
 		
 	});
 	
@@ -85,9 +85,10 @@ var WelComeScene = function (gameFunc, stage) {
 	btn2.on("pressup", function () {
 		this.scaleY = this.scaleX = 1;
 	    stage.removeAllChildren();		
-		submitScore(qp_score-2);
+		submitScore(qp_score-2);	//whquan
 		qp_score1 = qp_score1 + 13;
-        GameoverScene();
+		GamePreOverScene();//whquan
+        //GameoverScene();//whquan
 	});
 };
 

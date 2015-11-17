@@ -3,15 +3,41 @@ var qp_numplayText, qp_numPlay = 0, qp_bestScoreText, qp_bestScore = 0;
 
 function LoadGameoverSceneRes() {
 	queue.loadManifest({path:RES_DIR + "img/", 
-	    manifest:[{src:"maxscore.png", id:"maxscore"}, 
+	    manifest:[
 	              {src:"gameoverbg.png", id:"gameoverbg"}, 
-	              {src:"curscore.png", id:"curscore"}, 
 	              {src:"sharebtn.png", id:"sharebtn"}, 
 	              {src:"donatebtn.png", id:"donatebtn"}, 
-	              {src:"gameovertext.png", id:"gameovertext"},
-	              {src:"gameover.png", id:"gameover"}]}, !1);
+	              {src:"donateinfo.png", id:"donateinfo"},
+	              {src:"gameovertext.png", id:"gameovertext"}
+	              ]}, !1);
 }
 
+//whquan
+var GamePreOverScene = function(){
+	var overContainer = new createjs.Container;
+	stage.addChild(overContainer);
+	var a, b;
+	a = new createjs.Bitmap(queue.getResult("blurBg"));
+	a.scaleX = ScreenWidth / a.getBounds().width;
+	a.scaleY = ScreenHeight / a.getBounds().height;
+	overContainer.addChild(a);
+	
+	//whquan
+	a = new createjs.Bitmap(queue.getResult("gameovertext"));
+	a.alpha = 0;
+	a.y = -200;
+	a.scaleY = 1.3;
+	createjs.Tween.get(a).to({alpha:1}, 200);
+	overContainer.addChild(a);
+	
+	/*this.on("mousedown", function (evt) {
+		IS_TOUCH && evt.nativeEvent instanceof MouseEvent 
+		|| (this.scaleY = this.scaleX = 0.95);
+	});*/
+	a.on("pressup", function (evt) {
+		GameoverScene();
+	});
+}
 
 var GameoverScene = function () {
 	
@@ -19,13 +45,16 @@ var GameoverScene = function () {
 	stage.addChild(overContainer);
 	var a, b;
 	a = new createjs.Bitmap(queue.getResult("blurBg"));
+	a.scaleX = ScreenWidth / a.getBounds().width;
+	a.scaleY = ScreenHeight / a.getBounds().height;
 	overContainer.addChild(a);
-	
+	/*
+	//whquan
 	a = new createjs.Bitmap(queue.getResult("gameovertext"));
 	a.alpha = 0;
 	createjs.Tween.get(a).to({alpha:1}, 200);
 	overContainer.addChild(a);
-	
+	*/
 	a  = new createjs.Text(" 你的得分:", "bold 35px 幼圆");
 	a.textBaseline = "middle";
 	a.x = 70;
@@ -94,11 +123,27 @@ var GameoverScene = function () {
 //	qp_bestScoreText.y = 480;
 //	overContainer.addChild(qp_bestScoreText);
 
+	//whquan donate info
+	b = new createjs.Bitmap(queue.getResult("donateinfo"));
+	b.setAnchorPoint(0.5, 0.5);
+	b.x = 320;
+	b.y = 300;
+	overContainer.addChild(b);
+	b.on("mousedown", function (evt) {
+		IS_TOUCH && evt.nativeEvent instanceof MouseEvent 
+		|| (this.scaleY = this.scaleX = 0.95);
+	});
+	b.on("pressup", function (evt) {
+		this.scaleY = this.scaleX = 1;
+		alert("donate info");
+		//window.location.href = "http://alumni.cs.tsinghua.edu.cn/donation/";
+	});
+	
 	//whquan
 	b = new createjs.Bitmap(queue.getResult("donatebtn"));
 	b.setAnchorPoint(0.5, 0.5);
-	b.x = 160;
-	b.y = 850;
+	b.x = 320;
+	b.y = 400;
 	overContainer.addChild(b);
 	b.on("mousedown", function (evt) {
 		IS_TOUCH && evt.nativeEvent instanceof MouseEvent 
@@ -111,8 +156,8 @@ var GameoverScene = function () {
 	
 	b = new createjs.Bitmap(queue.getResult("sharebtn"));
 	b.setAnchorPoint(0.5, 0.5);
-	b.x = 460;	//whquan
-	b.y = 850;
+	b.x = 320;	//whquan
+	b.y = 500;
 	overContainer.addChild(b);
 	b.on("mousedown", function (evt) {
 		IS_TOUCH && evt.nativeEvent instanceof MouseEvent 

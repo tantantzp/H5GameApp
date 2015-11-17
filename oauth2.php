@@ -55,6 +55,7 @@
 	function getUserInfoFromWeixin($code, $state){
 		global $cookieInfo, $errInfo;
 		
+		//cst alumni
 		$appid = "wxd32fa03d5ce9cb61";	//appid
 		$appsecret = "6b3119937392ce1026528f3ecfe38367";	//appsecret
 		

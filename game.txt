@@ -3,111 +3,116 @@
     {
         "img":"jiujing1", 
         "text":"gametext1", 
+        "isBlur": 1,
+        "showImg": 0,
+        "question" : "图片中的物品是什么？",
         "ansArray":
         [
-            {"text": "小木板   ", "isans": 0}, 
-            {"text": "九号楼   ", "isans": 0}, 
-            {"text": "墙  砖   ", "isans": 0},
-           {"text":  "小黑板   ", "isans": 1}
+            {"text": "   小  木  板    ", "isans": 0}, 
+            {"text": "   铜      牌    ", "isans": 0}, 
+            {"text": "   小  黑  板    ", "isans": 1},
+           {"text":  "   电  磁  壶    ", "isans": 0}
         ] 
     },
     {
     	"img":"jiujing2", 
         "text":"gametext2", 
+        "isBlur": 1,
+        "showImg": 0,
+        "question" : "图中物品上的文字是什么？",
     	"ansArray":
-    	[
-    	    {"text": "电磁壶   ", "isans": 0}, 
-    	    {"text": "铜  牌   ", "isans": 1}, 
-    	    {"text": "大  门   ", "isans": 0},
-    	    {"text": "墙  砖   ", "isans": 0}
-        ] 
-    },
-    {
-    	"img":"jiujing3", 
-    	"text":"gametext3", 
-    	"ansArray":
-    	[
-    	    {"text": "小木板   ", "isans": 0}, 
-    	    {"text": "电磁壶   ", "isans": 1}, 
-    	    {"text": "墙  砖   ", "isans": 0},
-    	    {"text": "电  线   ", "isans": 0}
-    	] 
-    },
-    {
-    	"img":"jiujing4", 
-    	"text":"gametext4", 
-    	"ansArray":
-    	[
-    	    {"text": "楼顶     ", "isans": 0}, 
-    	    {"text": "电磁壶   ", "isans": 0}, 
-    	    {"text": "通风口   ", "isans": 1},
-    	    {"text": "墙砖     ", "isans": 0}
-    	] 
-    },
-    {
-        "img":"jiujing5", 
-        "text":"gametext5", 
-        "ansArray":
-        [
-            {"text": "15级台阶  ", "isans": 1}, 
-            {"text": "11级台阶  ", "isans": 0}, 
-            {"text": "17级台阶  ", "isans": 0},
-            {"text": "12级台阶  ", "isans": 0}
+    	[            
+    	    {"text": "   九  号  楼    ", "isans": 1}, 
+    	    {"text": "   9   号  楼    ", "isans": 0}, 
+    	    {"text": "   七  号  楼    ", "isans": 0},
+    	    {"text": "   7   号  楼    ", "isans": 0}
         ] 
     },
     {
         "img":"jiujing6", 
         "text":"gametext6", 
+        "isBlur": 1,
+        "showImg": 0,
+        "question" : "该图所示是什么？", 
         "ansArray":
         [
-            {"text": "宿 舍 门  ", "isans": 0}, 
-            {"text": "活 动 室  ", "isans": 0}, 
-            {"text": "储 物 间  ", "isans": 0},
-            {"text": "门窗锁扣  ", "isans": 1}
+            {"text": "   衣  柜  门   ", "isans": 0}, 
+            {"text": "   门 上 小 窗  ", "isans": 1}, 
+            {"text": "   宿  舍  门   ", "isans": 0},
+            {"text": "   开着的窗户   ", "isans": 0}
         ] 
     },
     {
+    	"img":"jiujing3", 
+    	"text":"gametext3", 
+    	"isBlur": 0,
+    	"showImg": 0,
+        "question" : "图片中物体在9号楼的什么位置？",
+    	"ansArray":
+    	[           
+    	    {"text": "  西侧2-3楼之间  ", "isans": 1}, 
+    	    {"text": "  西侧3-4楼之间  ", "isans": 0}, 
+    	    {"text": "  东侧2-3楼之间  ", "isans": 0},
+    	    {"text": "  东侧3-4楼之间  ", "isans": 0}
+    	] 
+    },
+
+
+
+    {
         "img":"jiujing7", 
         "text":"gametext7", 
+        "isBlur": 0,
+        "showImg": 0,
+        "question" : "这是哪里的门？", 
         "ansArray":
-        [
-            {"text": "宿 舍 门  ", "isans": 0}, 
-            {"text": "玻 璃 窗  ", "isans": 0}, 
-            {"text": "储 物 间  ", "isans": 1},
-            {"text": "九号楼东门", "isans": 0}
+        [  
+            {"text": "  水  房  门   ", "isans": 0}, 
+            {"text": "  244 宿 舍 门 ", "isans": 0}, 
+            {"text": "  储 物 间 门  ", "isans": 1},
+            {"text": "  423 宿 舍 门 ", "isans": 0}
         ] 
     },
     {
         "img":"jiujing8", 
         "text":"gametext8", 
+        "isBlur": 0,
+        "showImg": 0,
+        "question" : "你能快速找出这是那间宿舍的门吗？", 
         "ansArray":
         [
-            {"text": "114宿舍  ", "isans": 0}, 
-            {"text": "214宿舍  ", "isans": 0}, 
-            {"text": "425宿舍  ", "isans": 1},
-            {"text": "311宿舍  ", "isans": 0}
+            {"text": "   114 宿舍  ", "isans": 0}, 
+            {"text": "   214 宿舍  ", "isans": 0}, 
+            {"text": "   425 宿舍  ", "isans": 1},
+            {"text": "   311 宿舍  ", "isans": 0}
         ] 
     },
     {
-        "img":"jiujing9", 
-        "text":"gametext9", 
+        "img":"jiujing5", 
+        "text":"gametext5", 
+        "isBlur": 0,
+        "showImg": 1,
+        "question" : "图中是那一层楼梯？（tips:依据楼梯数）", 
         "ansArray":
         [
-            {"text": "暖 气 片","isans": 1}, 
-            {"text": "活 动 室", "isans": 0}, 
-            {"text": "储 物 间", "isans": 0},
-            {"text": "宿 舍 门", "isans": 0}
+            {"text": "  一楼到二楼  ", "isans": 1}, 
+            {"text": "  二楼到三楼  ", "isans": 0}, 
+            {"text": "  三楼到四楼  ", "isans": 0},
+            {"text": "  四楼到五楼  ", "isans": 0}
         ] 
     },
     {
         "img":"jiujing10", 
         "text":"gametext10", 
+        "isBlur": 0,
+        "showImg": 1,
+        "question" : "你知道九号楼建于那一年吗？", 
         "ansArray":
         [
-            {"text": "九号楼东侧", "isans": 0}, 
-            {"text": "九号楼西侧", "isans": 1}, 
-            {"text": "九号楼南侧", "isans": 0},
-            {"text": "九号楼北侧", "isans": 0}
+            {"text": "   1948 年   ", "isans": 0}, 
+            {"text": "   1949 年   ", "isans": 0}, 
+            {"text": "   1958 年   ", "isans": 1},
+            {"text": "   1959 年   ", "isans": 0}
         ] 
     }
 ]

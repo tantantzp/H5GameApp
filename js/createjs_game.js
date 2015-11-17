@@ -92,22 +92,22 @@ function ProgressBar(barWidth, barHeight) {
 	//console.log("background1", this.background1.image);
 	this.background1.alpha =1;
 	this.background1.x = this.background1.y = 0;
-	this.background1.scaleX = W / 640; 
-	this.background1.scaleY = H /  960;//this.background1.image.height;
+	this.background1.scaleX = W / 320; 
+	this.background1.scaleY = H / 480;//this.background1.image.height;
     createjs.Tween.get(this.background1).to({alpha:1}, 200);
   
   
   	this.background2 = new createjs.Bitmap("img/jiujingBg2.jpg");
 	this.background2.alpha = 0;
 	this.background2.x = this.background2.y = 0;
-	this.background2.scaleX = W / 640;
-	this.background2.scaleY = H / 960 ;//this.background2.image.height;
+	this.background2.scaleX = W / 320
+	this.background2.scaleY = H / 480 ;//this.background2.image.height;
   
     this.background3 = new createjs.Bitmap("img/jiujingBg3.jpg");
 	this.background3.alpha = 0;
 	this.background3.x = this.background3.y = 0;
-	this.background3.scaleX = W / 640;
-	this.background3.scaleY = H / 960 ;//this.background2.image.height;
+	this.background3.scaleX = W / 320;
+	this.background3.scaleY = H / 480 ;//this.background2.image.height;
    
     this.flag2 = true;
     this.flag3 = true;

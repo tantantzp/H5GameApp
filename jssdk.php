@@ -69,7 +69,8 @@ class JSSDK {
     return $ticket;
   }
 
-  private function getAccessToken() {
+  //private function getAccessToken() {
+  	public function getAccessToken() {
     // access_token 应该全局存储与更新，以下代码以写入到文件中做示例
     $data = json_decode(file_get_contents("access_token.json"));
     if ($data->expire_time < time()) {
